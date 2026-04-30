@@ -1,0 +1,935 @@
+<html lang="ko" class="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IdeaLab 🧪 - 아이디어 인큐베이터</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+  * { font-family: 'Inter', sans-serif; }
+  
+  :root {
+    --lab-green: #00ff88;
+    --lab-purple: #8b5cf6;
+    --lab-cyan: #06b6d4;
+    --lab-pink: #f472b6;
+  }
+
+  body {
+    background: #0a0a0f;
+    color: #e2e8f0;
+  }
+
+  .glass {
+    background: rgba(255,255,255,0.04);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .glass-hover:hover {
+    background: rgba(255,255,255,0.07);
+    border-color: rgba(139,92,246,0.4);
+    transform: translateY(-2px);
+    transition: all 0.2s ease;
+  }
+
+  .glow-green { box-shadow: 0 0 20px rgba(0,255,136,0.15); }
+  .glow-purple { box-shadow: 0 0 20px rgba(139,92,246,0.2); }
+  .glow-cyan { box-shadow: 0 0 20px rgba(6,182,212,0.15); }
+
+  .gradient-text {
+    background: linear-gradient(135deg, #00ff88, #8b5cf6, #06b6d4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .bubble-badge {
+    animation: bubble 3s ease-in-out infinite;
+  }
+
+  @keyframes bubble {
+    0%, 100% { transform: translateY(0px) rotate(-2deg); }
+    50% { transform: translateY(-4px) rotate(2deg); }
+  }
+
+  .pulse-dot {
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(0,255,136,0.4); }
+    50% { opacity: 0.8; box-shadow: 0 0 0 6px rgba(0,255,136,0); }
+  }
+
+  .beaker-float {
+    animation: float 4s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+  }
+
+  .toast-slide {
+    animation: slideIn 0.3s ease-out;
+  }
+
+  @keyframes slideIn {
+    from { transform: translateX(100px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+  }
+
+  .kanban-col {
+    min-height: 400px;
+  }
+
+  .sidebar-item:hover .sidebar-icon {
+    transform: scale(1.2) rotate(5deg);
+    transition: transform 0.2s;
+  }
+
+  .card-enter {
+    animation: cardEnter 0.3s ease-out;
+  }
+
+  @keyframes cardEnter {
+    from { opacity: 0; transform: scale(0.95) translateY(10px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  .scrollbar-hide::-webkit-scrollbar { display: none; }
+  .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+  .version-line::before {
+    content: '';
+    position: absolute;
+    left: 9px;
+    top: 24px;
+    bottom: -8px;
+    width: 2px;
+    background: linear-gradient(to bottom, #8b5cf6, transparent);
+  }
+
+  .stat-card {
+    background: linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .nav-active {
+    background: linear-gradient(135deg, rgba(139,92,246,0.2), rgba(6,182,212,0.1));
+    border-left: 3px solid #8b5cf6;
+  }
+
+  .modal-overlay {
+    animation: fadeIn 0.2s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .modal-content {
+    animation: scaleIn 0.25s ease-out;
+  }
+
+  @keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.9) translateY(20px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  .tag {
+    background: rgba(139,92,246,0.15);
+    border: 1px solid rgba(139,92,246,0.3);
+    color: #a78bfa;
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 20px;
+  }
+
+  .progress-bar {
+    background: linear-gradient(90deg, #8b5cf6, #06b6d4);
+    border-radius: 4px;
+    transition: width 1s ease;
+  }
+
+  .lab-bg {
+    background-image: 
+      radial-gradient(ellipse at 10% 20%, rgba(139,92,246,0.08) 0%, transparent 50%),
+      radial-gradient(ellipse at 90% 80%, rgba(6,182,212,0.06) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 50%, rgba(0,255,136,0.03) 0%, transparent 70%);
+  }
+</style>
+</head>
+<body class="lab-bg min-h-screen">
+
+<!-- Toast Container -->
+<div id="toastContainer" class="fixed top-4 right-4 z-[9999] flex flex-col gap-2 pointer-events-none"></div>
+
+<!-- Sidebar -->
+<div id="sidebar" class="fixed left-0 top-0 h-full w-64 glass border-r border-white/5 z-50 flex flex-col transition-transform duration-300">
+  <!-- Logo -->
+  <div class="p-5 border-b border-white/5">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-purple-500 to-cyan-400 flex items-center justify-center text-xl glow-purple beaker-float">
+        🧪
+      </div>
+      <div>
+        <div class="font-bold text-white text-lg leading-none">IdeaLab</div>
+        <div class="text-xs text-purple-400 mt-0.5">실험실에 오신 걸 환영해요</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- User -->
+  <div class="p-4 border-b border-white/5">
+    <div class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-full bg-gradient-to-br from-pink-400 to-purple-500 flex items-center justify-center text-sm font-bold">K</div>
+      <div class="flex-1 min-w-0">
+        <div class="text-sm font-medium text-white">김인디 박사</div>
+        <div class="text-xs text-slate-400 flex items-center gap-1">
+          <span class="w-2 h-2 rounded-full bg-green-400 pulse-dot inline-block"></span>
+          Free Plan · 3/5 실험
+        </div>
+      </div>
+      <div class="text-xs bg-yellow-500/20 text-yellow-400 px-2 py-1 rounded-full border border-yellow-500/30">FREE</div>
+    </div>
+    <div class="mt-3 bg-white/5 rounded-full h-1.5">
+      <div class="progress-bar h-1.5 w-3/5"></div>
+    </div>
+  </div>
+
+  <!-- Nav -->
+  <nav class="flex-1 p-3 overflow-y-auto scrollbar-hide">
+    <div class="text-xs text-slate-500 uppercase tracking-widest px-3 mb-2">실험실</div>
+    
+    <button onclick="switchTab('dashboard')" id="nav-dashboard" class="sidebar-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm mb-1 nav-active">
+      <span class="sidebar-icon text-lg">🏠</span>
+      <span class="font-medium text-white">대시보드</span>
+      <span class="ml-auto text-xs bg-purple-500/30 text-purple-300 px-2 py-0.5 rounded-full">홈</span>
+    </button>
+
+    <button onclick="switchTab('ideas')" id="nav-ideas" class="sidebar-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm mb-1 text-slate-400 hover:text-white hover:bg-white/5 transition-all">
+      <span class="sidebar-icon text-lg">💡</span>
+      <span>아이디어 보드</span>
+      <span class="ml-auto text-xs bg-white/10 px-2 py-0.5 rounded-full">8</span>
+    </button>
+
+    <button onclick="switchTab('kanban')" id="nav-kanban" class="sidebar-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm mb-1 text-slate-400 hover:text-white hover:bg-white/5 transition-all">
+      <span class="sidebar-icon text-lg">🗂️</span>
+      <span>칸반 보드</span>
+    </button>
+
+    <button onclick="switchTab('traffic')" id="nav-traffic" class="sidebar-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm mb-1 text-slate-400 hover:text-white hover:bg-white/5 transition-all">
+      <span class="sidebar-icon text-lg">📊</span>
+      <span>트래픽 분석</span>
+      <span class="ml-auto text-xs bg-green-500/20 text-green-400 px-2 py-0.5 rounded-full">NEW</span>
+    </button>
+
+    <button onclick="switchTab('issues')" id="nav-issues" class="sidebar-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm mb-1 text-slate-400 hover:text-white hover:bg-white/5 transition-all">
+      <span class="sidebar-icon text-lg">🐛</span>
+      <span>이슈 트래커</span>
+      <span class="ml-auto text-xs bg-red-500/20 text-red-400 px-2 py-0.5 rounded-full">5</span>
+    </button>
+
+    <div class="text-xs text-slate-500 uppercase tracking-widest px-3 mt-4 mb-2">도구</div>
+
+    <button onclick="switchTab('mockup')" id="nav-mockup" class="sidebar-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm mb-1 text-slate-400 hover:text-white hover:bg-white/5 transition-all">
+      <span class="sidebar-icon text-lg">🎨</span>
+      <span>AI 목업 생성</span>
+      <span class="ml-auto text-xs bg-cyan-500/20 text-cyan-400 px-2 py-0.5 rounded-full">AI</span>
+    </button>
+
+    <button onclick="showToast('준비 중인 기능이에요! 🔭', 'info')" class="sidebar-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm mb-1 text-slate-400 hover:text-white hover:bg-white/5 transition-all">
+      <span class="sidebar-icon text-lg">🔭</span>
+      <span>마켓플레이스</span>
+      <span class="ml-auto text-xs bg-yellow-500/20 text-yellow-400 px-2 py-0.5 rounded-full">Soon</span>
+    </button>
+  </nav>
+
+  <!-- Pro Upsell -->
+  <div class="p-4 border-t border-white/5">
+    <div class="glass rounded-xl p-3 glow-purple">
+      <div class="flex items-center gap-2 mb-2">
+        <span class="text-lg bubble-badge">⚗️</span>
+        <span class="text-sm font-semibold text-white">Pro 실험실로 업그레이드</span>
+      </div>
+      <p class="text-xs text-slate-400 mb-3">무제한 실험 · AI 목업 100회/월 · 트래픽 분석</p>
+      <button onclick="showProModal()" class="w-full bg-gradient-to-r from-purple-500 to-cyan-400 text-white text-xs font-bold py-2 rounded-lg hover:opacity-90 transition-opacity">
+        $12/월로 시작하기 🚀
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Main Content -->
+<div class="ml-64 min-h-screen">
+  
+  <!-- Top Bar -->
+  <header class="sticky top-0 z-40 glass border-b border-white/5 px-6 py-3.5 flex items-center gap-4">
+    <button onclick="toggleSidebar()" class="lg:hidden text-slate-400 hover:text-white">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+    </button>
+    
+    <div class="flex-1 max-w-md">
+      <div class="relative">
+        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500">🔍</span>
+        <input id="globalSearch" type="text" placeholder="아이디어, 프로젝트 검색..." 
+          class="w-full bg-white/5 border border-white/10 rounded-xl pl-9 pr-4 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-purple-500/50 focus:bg-white/8 transition-all"
+          oninput="handleSearch(this.value)">
+      </div>
+    </div>
+
+    <div class="flex items-center gap-2 ml-auto">
+      <button onclick="showNewIdeaModal()" class="flex items-center gap-2 bg-gradient-to-r from-purple-500 to-cyan-400 text-white text-sm font-semibold px-4 py-2 rounded-xl hover:opacity-90 transition-all glow-purple">
+        <span>+</span> 새 실험 시작
+      </button>
+      
+      <button onclick="showToast('알림이 없어요! 🎉', 'success')" class="relative w-9 h-9 glass rounded-xl flex items-center justify-center text-slate-400 hover:text-white transition-colors">
+        🔔
+        <span class="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full text-[10px] flex items-center justify-center text-white font-bold">3</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Page Content -->
+  <main class="p-6">
+
+    <!-- DASHBOARD TAB -->
+    <div id="tab-dashboard" class="tab-content">
+      <!-- Greeting -->
+      <div class="mb-6">
+        <h1 class="text-2xl font-bold text-white">안녕하세요, 김인디 박사님! 👋</h1>
+        <p class="text-slate-400 mt-1">오늘도 실험실에 새로운 아이디어가 기다리고 있어요. 현재 <span class="text-purple-400 font-semibold">3개</span>의 실험이 진행 중입니다.</p>
+      </div>
+
+      <!-- Stats Grid -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <div class="stat-card rounded-2xl p-4 glow-purple card-enter">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-2xl">🧪</span>
+            <span class="text-xs text-green-400 bg-green-400/10 px-2 py-1 rounded-full">+2 이번주</span>
+          </div>
+          <div class="text-3xl font-bold text-white mb-1">8</div>
+          <div class="text-sm text-slate-400">전체 실험</div>
+        </div>
+
+        <div class="stat-card rounded-2xl p-4 card-enter">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-2xl">🚀</span>
+            <span class="text-xs text-cyan-400 bg-cyan-400/10 px-2 py-1 rounded-full">운영중</span>
+          </div>
+          <div class="text-3xl font-bold text-white mb-1">3</div>
+          <div class="text-sm text-slate-400">배포된 프로젝트</div>
+        </div>
+
+        <div class="stat-card rounded-2xl p-4 card-enter">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-2xl">👥</span>
+            <span class="text-xs text-purple-400 bg-purple-400/10 px-2 py-1 rounded-full">+12% ↑</span>
+          </div>
+          <div class="text-3xl font-bold text-white mb-1">1.2k</div>
+          <div class="text-sm text-slate-400">월간 방문자</div>
+        </div>
+
+        <div class="stat-card rounded-2xl p-4 card-enter">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-2xl">🐛</span>
+            <span class="text-xs text-red-400 bg-red-400/10 px-2 py-1 rounded-full">해결 필요</span>
+          </div>
+          <div class="text-3xl font-bold text-white mb-1">5</div>
+          <div class="text-sm text-slate-400">열린 이슈</div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Recent Ideas -->
+        <div class="lg:col-span-2 glass rounded-2xl p-5">
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="font-semibold text-white flex items-center gap-2">
+              <span>🔬</span> 최근 실험들
+            </h2>
+            <button onclick="switchTab('ideas')" class="text-xs text-purple-400 hover:text-purple-300">전체 보기 →</button>
+          </div>
+          <div class="space-y-3" id="recentIdeas"></div>
+        </div>
+
+        <!-- AI Recommendation -->
+        <div class="space-y-4">
+          <div class="glass rounded-2xl p-5">
+            <h2 class="font-semibold text-white flex items-center gap-2 mb-4">
+              <span>🤖</span> AI 개선 추천
+            </h2>
+            <div class="space-y-3" id="aiRecommendations"></div>
+          </div>
+
+          <!-- Lab Character -->
+          <div class="glass rounded-2xl p-5 text-center">
+            <div class="text-5xl mb-2 beaker-float">🧬</div>
+            <div class="text-sm font-semibold text-white mb-1">실험실 조수 라보</div>
+            <p class="text-xs text-slate-400">SnippetAI 실험체가 가장 활발해요! 트래픽이 급증하고 있으니 개선을 서두르세요 📈</p>
+            <div class="mt-3 text-xs bg-purple-500/20 text-purple-300 px-3 py-1.5 rounded-full border border-purple-500/20">
+              💬 "실험은 계속되어야 해요!"
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Weekly Chart -->
+      <div class="glass rounded-2xl p-5 mt-6">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="font-semibold text-white flex items-center gap-2">
+            <span>📈</span> 주간 트래픽 현황
+          </h2>
+          <div class="flex gap-2">
+            <button class="text-xs bg-purple-500/20 text-purple-300 px-3 py-1 rounded-full border border-purple-500/30">7일</button>
+            <button onclick="showToast('Pro 플랜에서 확인 가능해요! 💎', 'info')" class="text-xs text-slate-500 hover:text-slate-400 px-3 py-1 rounded-full transition-colors">30일</button>
+          </div>
+        </div>
+        <canvas id="dashboardChart" height="80"></canvas>
+      </div>
+    </div>
+
+    <!-- IDEAS TAB -->
+    <div id="tab-ideas" class="tab-content hidden">
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <h1 class="text-2xl font-bold text-white">💡 아이디어 실험실</h1>
+          <p class="text-slate-400 mt-1">아이디어를 실험체로 등록하고 관리하세요</p>
+        </div>
+        <button onclick="showNewIdeaModal()" class="flex items-center gap-2 bg-gradient-to-r from-purple-500 to-cyan-400 text-white text-sm font-semibold px-4 py-2 rounded-xl hover:opacity-90 transition-all">
+          + 새 실험 시작
+        </button>
+      </div>
+
+      <!-- Filters -->
+      <div class="flex flex-wrap gap-2 mb-6">
+        <button onclick="filterIdeas('all')" id="filter-all" class="filter-btn text-sm px-4 py-2 rounded-xl bg-purple-500/20 text-purple-300 border border-purple-500/30">전체 (8)</button>
+        <button onclick="filterIdeas('실험중')" id="filter-실험중" class="filter-btn text-sm px-4 py-2 rounded-xl glass text-slate-400 hover:text-white border border-white/10">🔬 실험중 (3)</button>
+        <button onclick="filterIdeas('MVP')" id="filter-MVP" class="filter-btn text-sm px-4 py-2 rounded-xl glass text-slate-400 hover:text-white border border-white/10">⚗️ MVP (2)</button>
+        <button onclick="filterIdeas('운영중')" id="filter-운영중" class="filter-btn text-sm px-4 py-2 rounded-xl glass text-slate-400 hover:text-white border border-white/10">🚀 운영중 (2)</button>
+        <button onclick="filterIdeas('보류')" id="filter-보류" class="filter-btn text-sm px-4 py-2 rounded-xl glass text-slate-400 hover:text-white border border-white/10">❄️ 보류 (1)</button>
+      </div>
+
+      <div id="ideasGrid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4"></div>
+    </div>
+
+    <!-- KANBAN TAB -->
+    <div id="tab-kanban" class="tab-content hidden">
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <h1 class="text-2xl font-bold text-white">🗂️ 칸반 보드</h1>
+          <p class="text-slate-400 mt-1">실험 상태별로 아이디어를 관리하세요</p>
+        </div>
+      </div>
+      <div class="flex gap-4 overflow-x-auto pb-4 scrollbar-hide" id="kanbanBoard"></div>
+    </div>
+
+    <!-- TRAFFIC TAB -->
+    <div id="tab-traffic" class="tab-content hidden">
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <h1 class="text-2xl font-bold text-white">📊 트래픽 분석</h1>
+          <p class="text-slate-400 mt-1">어떤 실험체가 가장 인기 있는지 확인하세요</p>
+        </div>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <div class="stat-card rounded-2xl p-4">
+          <div class="text-3xl mb-2">👀</div>
+          <div class="text-2xl font-bold text-white">12,847</div>
+          <div class="text-sm text-slate-400 mb-1">이번달 총 방문자</div>
+          <div class="text-xs text-green-400">+23.5% vs 지난달</div>
+        </div>
+        <div class="stat-card rounded-2xl p-4">
+          <div class="text-3xl mb-2">💰</div>
+          <div class="text-2xl font-bold text-white">4.2%</div>
+          <div class="text-sm text-slate-400 mb-1">평균 전환율</div>
+          <div class="text-xs text-green-400">+0.8% vs 지난달</div>
+        </div>
+        <div class="stat-card rounded-2xl p-4">
+          <div class="text-3xl mb-2">⚡</div>
+          <div class="text-2xl font-bold text-white">1.2s</div>
+          <div class="text-sm text-slate-400 mb-1">평균 응답시간</div>
+          <div class="text-xs text-red-400">+0.3s vs 지난달</div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+        <div class="glass rounded-2xl p-5">
+          <h3 class="font-semibold text-white mb-4 flex items-center gap-2">📈 서비스별 방문자</h3>
+          <canvas id="trafficBarChart" height="200"></canvas>
+        </div>
+        <div class="glass rounded-2xl p-5">
+          <h3 class="font-semibold text-white mb-4 flex items-center gap-2">🎯 전환율 비교</h3>
+          <canvas id="conversionChart" height="200"></canvas>
+        </div>
+      </div>
+
+      <!-- Service Ranking -->
+      <div class="glass rounded-2xl p-5">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="font-semibold text-white flex items-center gap-2">🏆 실험체 성과 랭킹</h3>
+          <span class="text-xs text-slate-500">AI 개선 우선순위 자동 추천</span>
+        </div>
+        <div id="serviceRanking" class="space-y-3"></div>
+      </div>
+    </div>
+
+    <!-- ISSUES TAB -->
+    <div id="tab-issues" class="tab-content hidden">
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <h1 class="text-2xl font-bold text-white">🐛 이슈 트래커</h1>
+          <p class="text-slate-400 mt-1">버그와 개선사항을 추적하세요</p>
+        </div>
+        <button onclick="showNewIssueModal()" class="flex items-center gap-2 bg-gradient-to-r from-red-500 to-orange-400 text-white text-sm font-semibold px-4 py-2 rounded-xl hover:opacity-90">
+          + 이슈 등록
+        </button>
+      </div>
+
+      <div class="flex gap-2 mb-4">
+        <button onclick="filterIssues('all')" id="issue-filter-all" class="text-sm px-4 py-2 rounded-xl bg-purple-500/20 text-purple-300 border border-purple-500/30">전체</button>
+        <button onclick="filterIssues('bug')" id="issue-filter-bug" class="text-sm px-4 py-2 rounded-xl glass text-slate-400 border border-white/10">🐛 버그</button>
+        <button onclick="filterIssues('improve')" id="issue-filter-improve" class="text-sm px-4 py-2 rounded-xl glass text-slate-400 border border-white/10">✨ 개선</button>
+        <button onclick="filterIssues('urgent')" id="issue-filter-urgent" class="text-sm px-4 py-2 rounded-xl glass text-slate-400 border border-white/10">🚨 긴급</button>
+      </div>
+
+      <div id="issueList" class="space-y-3"></div>
+    </div>
+
+    <!-- MOCKUP TAB -->
+    <div id="tab-mockup" class="tab-content hidden">
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <h1 class="text-2xl font-bold text-white">🎨 AI 목업 생성기</h1>
+          <p class="text-slate-400 mt-1">아이디어를 설명하면 와이어프레임을 만들어드려요</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="glass rounded-2xl p-6">
+          <h3 class="font-semibold text-white mb-4 flex items-center gap-2">
+            <span class="text-xl">✍️</span> 아이디어 입력
+          </h3>
+          
+          <div class="space-y-4">
+            <div>
+              <label class="text-sm text-slate-400 mb-2 block">프로젝트 선택</label>
+              <select class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-purple-500/50">
+                <option>SnippetAI - v3</option>
+                <option>DevFocus - v1</option>
+                <option>LinkTree Pro - v2</option>
+              </select>
+            </div>
+            
+            <div>
+              <label class="text-sm text-slate-400 mb-2 block">목업 프롬프트</label>
+              <textarea id="mockupPrompt" rows="5" placeholder="예: SaaS 랜딩 페이지, 가격 비교 섹션이 있고 다크 테마..." 
+                class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-purple-500/50 resize-none"></textarea>
+            </div>
+
+            <div>
+              <label class="text-sm text-slate-400 mb-2 block">스타일 선택</label>
+              <div class="grid grid-cols-3 gap-2">
+                <button onclick="selectStyle(this, 'minimal')" class="style-btn glass rounded-xl p-3 text-center border border-white/10 hover:border-purple-500/50 transition-all">
+                  <div class="text-xl mb-1">◻️</div>
+                  <div class="text-xs text-slate-400">미니멀</div>
+                </button>
+                <button onclick="selectStyle(this, 'modern')" class="style-btn glass rounded-xl p-3 text-center border border-purple-500/50 bg-purple-500/10 transition-all">
+                  <div class="text-xl mb-1">✨</div>
+                  <div class="text-xs text-purple-300">모던</div>
+                </button>
+                <button onclick="selectStyle(this, 'playful')" class="style-btn glass rounded-xl p-3 text-center border border-white/10 hover:border-purple-500/50 transition-all">
+                  <div class="text-xl mb-1">🎨</div>
+                  <div class="text-xs text-slate-400">플레이풀</div>
+                </button>
+              </div>
+            </div>
+
+            <button onclick="generateMockup()" class="w-full bg-gradient-to-r from-purple-500 to-cyan-400 text-white font-semibold py-3 rounded-xl hover:opacity-90 transition-all flex items-center justify-center gap-2">
+              <span id="mockupBtnIcon">🤖</span>
+              <span id="mockupBtnText">AI 목업 생성하기</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="glass rounded-2xl p-6">
+          <h3 class="font-semibold text-white mb-4 flex items-center gap-2">
+            <span class="text-xl">🖼️</span> 생성된 목업
+            <span id="mockupVersion" class="text-xs tag">미리보기</span>
+          </h3>
+          
+          <div id="mockupPreview" class="rounded-xl overflow-hidden bg-[#0d0d1a] border border-white/10 min-h-80 flex items-center justify-center">
+            <div class="text-center p-8">
+              <div class="text-6xl mb-4 beaker-float">🧪</div>
+              <p class="text-slate-400 text-sm">프롬프트를 입력하고<br>AI 목업을 생성해보세요!</p>
+            </div>
+          </div>
+
+          <div id="mockupActions" class="hidden mt-4 flex gap-2">
+            <button onclick="showToast('목업을 프로젝트에 저장했어요! 📁', 'success')" class="flex-1 glass border border-white/10 text-sm text-white py-2 rounded-xl hover:bg-white/5">💾 저장</button>
+            <button onclick="generateMockup()" class="flex-1 glass border border-purple-500/30 text-sm text-purple-300 py-2 rounded-xl hover:bg-purple-500/10">🔄 재생성</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Generated History -->
+      <div class="glass rounded-2xl p-5 mt-6">
+        <h3 class="font-semibold text-white mb-4">📚 최근 생성 목업</h3>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <div class="bg-white/5 rounded-xl p-3 hover:bg-white/8 transition-all cursor-pointer group">
+            <div class="bg-gradient-to-br from-purple-900 to-indigo-900 rounded-lg h-20 mb-2 flex items-center justify-center text-2xl">📱</div>
+            <div class="text-xs text-white font-medium">SnippetAI 랜딩</div>
+            <div class="text-xs text-slate-500 mt-0.5">2시간 전</div>
+          </div>
+          <div class="bg-white/5 rounded-xl p-3 hover:bg-white/8 transition-all cursor-pointer">
+            <div class="bg-gradient-to-br from-cyan-900 to-blue-900 rounded-lg h-20 mb-2 flex items-center justify-center text-2xl">💻</div>
+            <div class="text-xs text-white font-medium">DevFocus 대시보드</div>
+            <div class="text-xs text-slate-500 mt-0.5">어제</div>
+          </div>
+          <div class="bg-white/5 rounded-xl p-3 hover:bg-white/8 transition-all cursor-pointer">
+            <div class="bg-gradient-to-br from-green-900 to-teal-900 rounded-lg h-20 mb-2 flex items-center justify-center text-2xl">🔗</div>
+            <div class="text-xs text-white font-medium">LinkTree 프로필</div>
+            <div class="text-xs text-slate-500 mt-0.5">3일 전</div>
+          </div>
+          <div class="bg-white/5 rounded-xl p-3 hover:bg-white/8 transition-all cursor-pointer border border-dashed border-white/10 flex flex-col items-center justify-center">
+            <div class="text-2xl mb-1">+</div>
+            <div class="text-xs text-slate-500">더 생성하기</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- New Idea Modal -->
+<div id="newIdeaModal" class="hidden fixed inset-0 z-[100] modal-overlay">
+  <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeModal('newIdeaModal')"></div>
+  <div class="relative z-10 flex items-center justify-center min-h-screen p-4">
+    <div class="glass modal-content w-full max-w-lg rounded-2xl p-6 border border-white/10">
+      <div class="flex items-center justify-between mb-5">
+        <div class="flex items-center gap-3">
+          <span class="text-2xl">🧪</span>
+          <div>
+            <h2 class="text-lg font-bold text-white">새 실험 시작</h2>
+            <p class="text-xs text-slate-400">아이디어를 실험체로 등록하세요</p>
+          </div>
+        </div>
+        <button onclick="closeModal('newIdeaModal')" class="text-slate-400 hover:text-white text-xl">×</button>
+      </div>
+
+      <form id="newIdeaForm" onsubmit="submitNewIdea(event)" class="space-y-4">
+        <div>
+          <label class="text-sm text-slate-400 mb-1.5 block">실험 이름 *</label>
+          <input type="text" id="ideaTitle" placeholder="예: SnippetAI, DevFocus..." required
+            class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-purple-500/50 transition-all">
+        </div>
+
+        <div>
+          <label class="text-sm text-slate-400 mb-1.5 block">해결하려는 문제 *</label>
+          <textarea id="ideaProblem" rows="2" placeholder="어떤 문제를 해결하나요?" required
+            class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-purple-500/50 resize-none transition-all"></textarea>
+        </div>
+
+        <div>
+          <label class="text-sm text-slate-400 mb-1.5 block">솔루션 아이디어 *</label>
+          <textarea id="ideaSolution" rows="2" placeholder="어떻게 해결할 건가요?" required
+            class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-purple-500/50 resize-none transition-all"></textarea>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="text-sm text-slate-400 mb-1.5 block">현재 상태</label>
+            <select id="ideaStatus" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-purple-500/50">
+              <option value="실험중">🔬 실험중</option>
+              <option value="MVP">⚗️ MVP</option>
+              <option value="운영중">🚀 운영중</option>
+              <option value="보류">❄️ 보류</option>
+            </select>
+          </div>
+          <div>
+            <label class="text-sm text-slate-400 mb-1.5 block">카테고리</label>
+            <select id="ideaCategory" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-purple-500/50">
+              <option>🛠️ 개발 도구</option>
+              <option>📊 SaaS</option>
+              <option>📱 모바일</option>
+              <option>🤖 AI/ML</option>
+              <option>🎨 디자인</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="text-sm text-slate-400 mb-1.5 block">태그 (쉼표로 구분)</label>
+          <input type="text" id="ideaTags" placeholder="saas, ai, productivity..."
+            class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-purple-500/50 transition-all">
+        </div>
+
+        <div class="flex gap-3 pt-2">
+          <button type="button" onclick="closeModal('newIdeaModal')" class="flex-1 glass border border-white/10 text-sm text-slate-400 py-2.5 rounded-xl hover:text-white transition-all">
+            취소
+          </button>
+          <button type="submit" class="flex-1 bg-gradient-to-r from-purple-500 to-cyan-400 text-white text-sm font-semibold py-2.5 rounded-xl hover:opacity-90 transition-all">
+            🧪 실험 시작!
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Idea Detail Modal -->
+<div id="ideaDetailModal" class="hidden fixed inset-0 z-[100] modal-overlay">
+  <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeModal('ideaDetailModal')"></div>
+  <div class="relative z-10 flex items-center center min-h-screen p-4 justify-center">
+    <div class="glass modal-content w-full max-w-2xl rounded-2xl p-6 border border-white/10 max-h-[90vh] overflow-y-auto scrollbar-hide">
+      <div id="ideaDetailContent"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Issue Modal -->
+<div id="newIssueModal" class="hidden fixed inset-0 z-[100] modal-overlay">
+  <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeModal('newIssueModal')"></div>
+  <div class="relative z-10 flex items-center justify-center min-h-screen p-4">
+    <div class="glass modal-content w-full max-w-md rounded-2xl p-6 border border-white/10">
+      <div class="flex items-center justify-between mb-5">
+        <h2 class="text-lg font-bold text-white flex items-center gap-2">🐛 이슈 등록</h2>
+        <button onclick="closeModal('newIssueModal')" class="text-slate-400 hover:text-white text-xl">×</button>
+      </div>
+
+      <form onsubmit="submitNewIssue(event)" class="space-y-4">
+        <div>
+          <label class="text-sm text-slate-400 mb-1.5 block">이슈 제목 *</label>
+          <input type="text" id="issueTitle" placeholder="예: 로그인 버튼 클릭 시 오류..." required
+            class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-purple-500/50">
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="text-sm text-slate-400 mb-1.5 block">유형</label>
+            <select id="issueType" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-purple-500/50">
+              <option value="bug">🐛 버그</option>
+              <option value="improve">✨ 개선</option>
+              <option value="urgent">🚨 긴급</option>
+            </select>
+          </div>
+          <div>
+            <label class="text-sm text-slate-400 mb-1.5 block">프로젝트</label>
+            <select id="issueProject" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-purple-500/50">
+              <option>SnippetAI</option>
+              <option>DevFocus</option>
+              <option>LinkTree Pro</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="text-sm text-slate-400 mb-1.5 block">설명</label>
+          <textarea id="issueDesc" rows="3" placeholder="이슈 상세 내용..."
+            class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-purple-500/50 resize-none"></textarea>
+        </div>
+        <div class="flex gap-3">
+          <button type="button" onclick="closeModal('newIssueModal')" class="flex-1 glass border border-white/10 text-sm text-slate-400 py-2.5 rounded-xl">취소</button>
+          <button type="submit" class="flex-1 bg-gradient-to-r from-red-500 to-orange-400 text-white text-sm font-semibold py-2.5 rounded-xl hover:opacity-90">등록하기</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Pro Modal -->
+<div id="proModal" class="hidden fixed inset-0 z-[100] modal-overlay">
+  <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeModal('proModal')"></div>
+  <div class="relative z-10 flex items-center justify-center min-h-screen p-4">
+    <div class="glass modal-content w-full max-w-md rounded-2xl p-6 border border-purple-500/30 glow-purple">
+      <div class="text-center mb-6">
+        <div class="text-5xl mb-3 bubble-badge inline-block">⚗️</div>
+        <h2 class="text-2xl font-bold text-white">Pro 실험실</h2>
+        <p class="text-slate-400 mt-2">한계 없이 실험하세요</p>
+      </div>
+
+      <div class="bg-gradient-to-r from-purple-500/10 to-cyan-500/10 rounded-xl p-4 mb-5 border border-purple-500/20">
+        <div class="text-center">
+          <div class="text-3xl font-bold text-white">$12<span class="text-lg text-slate-400">/월</span></div>
+          <div class="text-xs text-green-400 mt-1">연간 결제 시 20% 할인 → $9.6/월</div>
+        </div>
+      </div>
+
+      <div class="space-y-3 mb-6">
+        <div class="flex items-center gap-3 text-sm"><span class="text-green-400">✅</span><span class="text-slate-300">무제한 프로젝트</span></div>
+        <div class="flex items-center gap-3 text-sm"><span class="text-green-400">✅</span><span class="text-slate-300">AI 목업 100회/월</span></div>
+        <div class="flex items-center gap-3 text-sm"><span class="text-green-400">✅</span><span class="text-slate-300">실시간 트래픽 분석</span></div>
+        <div class="flex items-center gap-3 text-sm"><span class="text-green-400">✅</span><span class="text-slate-300">AI 개선 우선순위 추천</span></div>
+        <div class="flex items-center gap-3 text-sm"><span class="text-green-400">✅</span><span class="text-slate-300">우선 지원</span></div>
+      </div>
+
+      <button onclick="showToast('결제 시스템 연동 준비 중이에요! 곧 만나요 🎉', 'success'); closeModal('proModal')" class="w-full bg-gradient-to-r from-purple-500 to-cyan-400 text-white font-bold py-3 rounded-xl hover:opacity-90 transition-all">
+        🚀 지금 Pro 시작하기
+      </button>
+      <button onclick="closeModal('proModal')" class="w-full text-slate-500 text-sm mt-3 hover:text-slate-400">나중에 하기</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ==================== DATA ====================
+let ideas = [
+  {
+    id: 1,
+    title: 'SnippetAI',
+    emoji: '⚡',
+    problem: '개발자들이 자주 쓰는 코드 스니펫을 찾는 데 너무 많은 시간 낭비',
+    solution: 'AI가 맥락을 파악해 최적의 코드 스니펫을 즉시 추천',
+    status: '운영중',
+    version: 'v3',
+    versions: ['v1 - 기본 검색 기능', 'v2 - AI 추천 추가', 'v3 - 실시간 협업'],
+    category: '🛠️ 개발 도구',
+    tags: ['ai', 'developer', 'saas'],
+    visitors: 4820,
+    conversion: 6.2,
+    bookmarked: true,
+    liked: false,
+    likes: 142,
+    createdAt: '2024-01-15',
+    updatedAt: '2024-03-10',
+    color: 'from-violet-600 to-indigo-500',
+    priority: 1
+  },
+  {
+    id: 2,
+    title: 'DevFocus',
+    emoji: '🎯',
+    problem: '개발자들이 집중을 유지하기 어렵고 포모도로 앱이 개발 워크플로우와 통합 안됨',
+    solution: 'IDE 플러그인으로 코딩 세션을 자동 트래킹하고 집중도 분석',
+    status: 'MVP',
+    version: 'v1',
+    versions: ['v1 - 기본 타이머 + VSCode 연동'],
+    category: '🛠️ 개발 도구',
+    tags: ['productivity', 'focus', 'ide'],
+    visitors: 1230,
+    conversion: 3.8,
+    bookmarked: false,
+    liked: true,
+    likes: 89,
+    createdAt: '2024-02-20',
+    updatedAt: '2024-03-08',
+    color: 'from-cyan-600 to-blue-500',
+    priority: 2
+  },
+  {
+    id: 3,
+    title: 'LinkTree Pro',
+    emoji: '🔗',
+    problem: '바이오 링크 서비스들이 인디해커 맞춤 분석이 없음',
+    solution: '인디해커 특화 UTM 추적 + 전환율 분석 링크 페이지',
+    status: '운영중',
+    version: 'v2',
+    versions: ['v1 - 기본 링크 페이지', 'v2 - 분석 대시보드 추가'],
+    category: '📊 SaaS',
+    tags: ['marketing', 'analytics', 'links'],
+    visitors: 3410,
+    conversion: 5.1,
+    bookmarked: true,
+    liked: false,
+    likes: 67,
+    createdAt: '2024-01-28',
+    updatedAt: '2024-03-05',
+    color: 'from-green-600 to-teal-500',
+    priority: 3
+  },
+  {
+    id: 4,
+    title: 'FeedbackBot',
+    emoji: '💬',
+    problem: '인앱 피드백 수집이 번거롭고 분석이 안됨',
+    solution: '1줄 코드로 설치하는 AI 피드백 위젯 + 자동 카테고리 분류',
+    status: '실험중',
+    version: 'v1',
+    versions: ['v1 - 위젯 프로토타입'],
+    category: '🤖 AI/ML',
+    tags: ['feedback', 'ai', 'widget'],
+    visitors: 320,
+    conversion: 2.1,
+    bookmarked: false,
+    liked: false,
+    likes: 34,
+    createdAt: '2024-03-01',
+    updatedAt: '2024-03-09',
+    color: 'from-pink-600 to-rose-500',
+    priority: 4
+  },
+  {
+    id: 5,
+    title: 'PricingTable.io',
+    emoji: '💰',
+    problem: 'SaaS 가격 테이블 UI를 매번 만들기 귀찮음',
+    solution: '드래그앤드롭으로 가격 테이블 생성 후 HTML 임베드',
+    status: '실험중',
+    version: 'v1',
+    versions: ['v1 - 기본 빌더'],
+    category: '🎨 디자인',
+    tags: ['saas', 'pricing', 'embed'],
+    visitors: 190,
+    conversion: 1.8,
+    bookmarked: true,
+    liked: false,
+    likes: 21,
+    createdAt: '2024-03-05',
+    updatedAt: '2024-03-10',
+    color: 'from-amber-600 to-yellow-500',
+    priority: 5
+  },
+  {
+    id: 6,
+    title: 'DocuAI',
+    emoji: '📄',
+    problem: 'API 문서 작성이 너무 시간 소모적',
+    solution: '코드 분석 후 자동 API 문서 생성 + 버전 관리',
+    status: 'MVP',
+    version: 'v2',
+    versions: ['v1 - 기본 파싱', 'v2 - OpenAI 연동'],
+    category: '🤖 AI/ML',
+    tags: ['documentation', 'api', 'ai'],
+    visitors: 760,
+    conversion: 4.3,
+    bookmarked: false,
+    liked: true,
+    likes: 55,
+    createdAt: '2024-02-10',
+    updatedAt: '2024-03-07',
+    color: 'from-blue-600 to-indigo-500',
+    priority: 6
+  },
+  {
+    id: 7,
+    title: 'StartupName',
+    emoji: '🏷️',
+    problem: '스타트업 네이밍이 너무 어렵고 도메인 체크까지 하나하나 해야 함',
+    solution: 'AI 네이밍 + 도메인 가용성 + 상표 검색 원스탑',
+    status: '실험중',
+    version: 'v1',
+    versions: ['v1 - AI 네이밍 MVP'],
+    category: '🤖 AI/ML',
+    tags: ['naming', 'startup', 'domain'],
+    visitors: 95,
+    conversion: 0.9,
+    bookmarked: false,
+    liked: false,
+    likes: 12,
+    createdAt: '2024-03-08',
+    updatedAt: '2024-03-10',
+    color: 'from-purple-600 to-pink-500',
+    priority: 7
+  },
+  {
+    id: 8,
+    title: 'ColdMailer',
+    emoji: '📧',
+    problem: '콜드 이메일 발송 도구들이 너무 비싸고 복잡함',
+    solution: '인디해커 전용 초경량 콜드 이메일 자동화',
+    status: '보류',
+    version: 'v1',
+    versions: ['v1 - 아이디어 단계'],
