@@ -1,0 +1,717 @@
+<html lang="ko" class="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IdeaLab 🧪 - 아이디어 인큐베이팅</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+  * { font-family: 'Inter', sans-serif; }
+  .bubble-bg {
+    background: radial-gradient(ellipse at 20% 50%, rgba(120, 80, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(255, 100, 180, 0.12) 0%, transparent 50%),
+                radial-gradient(ellipse at 60% 80%, rgba(80, 200, 255, 0.1) 0%, transparent 50%),
+                #0f0f1a;
+  }
+  .card-glow:hover { box-shadow: 0 0 30px rgba(139, 92, 246, 0.3); }
+  .flask-shake:hover { animation: shake 0.5s ease-in-out; }
+  @keyframes shake {
+    0%,100% { transform: rotate(0deg); }
+    25% { transform: rotate(-5deg); }
+    75% { transform: rotate(5deg); }
+  }
+  .gradient-text {
+    background: linear-gradient(135deg, #a78bfa, #f472b6, #38bdf8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .status-badge {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    padding: 2px 8px;
+    border-radius: 20px;
+  }
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: #1a1a2e; }
+  ::-webkit-scrollbar-thumb { background: #4c1d95; border-radius: 3px; }
+  .sidebar-item:hover { background: rgba(139, 92, 246, 0.15); }
+  .sidebar-item.active { background: rgba(139, 92, 246, 0.25); border-left: 3px solid #a78bfa; }
+  .progress-bar { transition: width 0.8s ease; }
+  .toast {
+    animation: slideIn 0.3s ease, fadeOut 0.3s ease 2.7s forwards;
+  }
+  @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+  @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; transform: translateX(100%); } }
+  .modal-backdrop { backdrop-filter: blur(8px); }
+  .particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    animation: float 6s infinite ease-in-out;
+  }
+  @keyframes float {
+    0%,100% { transform: translateY(0px) rotate(0deg); opacity: 0.7; }
+    50% { transform: translateY(-20px) rotate(180deg); opacity: 0.3; }
+  }
+  .tag { font-size: 0.7rem; padding: 2px 8px; border-radius: 12px; }
+  .version-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .lab-border { border: 1px solid rgba(139, 92, 246, 0.2); }
+  .score-ring {
+    background: conic-gradient(#a78bfa var(--score), #1e1b4b var(--score));
+    border-radius: 50%;
+  }
+  input, textarea, select {
+    background: rgba(30, 27, 75, 0.6) !important;
+    border: 1px solid rgba(139, 92, 246, 0.3) !important;
+    color: #e2e8f0 !important;
+  }
+  input::placeholder, textarea::placeholder { color: #64748b !important; }
+  input:focus, textarea:focus, select:focus {
+    outline: none !important;
+    border-color: #a78bfa !important;
+    box-shadow: 0 0 0 2px rgba(167, 139, 250, 0.2) !important;
+  }
+  .bubble { animation: bubble 4s infinite ease-in-out; }
+  @keyframes bubble {
+    0%,100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+  .experiment-card { transition: all 0.2s ease; }
+  .experiment-card:hover { transform: translateY(-2px); }
+  .priority-high { background: linear-gradient(135deg, rgba(239,68,68,0.15), rgba(239,68,68,0.05)); border-color: rgba(239,68,68,0.3) !important; }
+  .priority-medium { background: linear-gradient(135deg, rgba(245,158,11,0.15), rgba(245,158,11,0.05)); border-color: rgba(245,158,11,0.3) !important; }
+  .priority-low { background: linear-gradient(135deg, rgba(59,130,246,0.15), rgba(59,130,246,0.05)); border-color: rgba(59,130,246,0.3) !important; }
+</style>
+</head>
+<body class="bubble-bg min-h-screen text-slate-200">
+
+<!-- Toast Container -->
+<div id="toastContainer" class="fixed top-4 right-4 z-50 flex flex-col gap-2"></div>
+
+<!-- Sidebar -->
+<div id="sidebar" class="fixed left-0 top-0 h-full w-60 bg-slate-900/80 backdrop-blur-xl border-r border-purple-900/30 z-40 flex flex-col transition-transform duration-300">
+  <!-- Logo -->
+  <div class="p-5 border-b border-purple-900/30">
+    <div class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-lg flask-shake cursor-pointer">🧪</div>
+      <div>
+        <div class="font-bold text-white text-base">IdeaLab</div>
+        <div class="text-xs text-purple-400">실험실에 오신 것을 환영해요</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- User -->
+  <div class="p-4 border-b border-purple-900/20">
+    <div class="flex items-center gap-3 bg-purple-900/20 rounded-xl p-3">
+      <div class="w-8 h-8 rounded-full bg-gradient-to-br from-pink-400 to-purple-600 flex items-center justify-center text-sm font-bold">김</div>
+      <div class="flex-1 min-w-0">
+        <div class="text-sm font-medium text-white truncate">김인디 해커</div>
+        <div class="text-xs text-purple-400">Pro 플랜 ✨</div>
+      </div>
+      <div class="text-xs bg-purple-500/30 text-purple-300 px-2 py-1 rounded-full">12크레딧</div>
+    </div>
+  </div>
+
+  <!-- Nav -->
+  <nav class="flex-1 p-3 space-y-1 overflow-y-auto">
+    <button onclick="switchTab('dashboard')" class="sidebar-item active w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-300 transition-all" id="nav-dashboard">
+      <span class="text-lg">📊</span> 대시보드
+    </button>
+    <button onclick="switchTab('experiments')" class="sidebar-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-300 transition-all" id="nav-experiments">
+      <span class="text-lg">🔬</span> 실험체 보드
+    </button>
+    <button onclick="switchTab('analytics')" class="sidebar-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-300 transition-all" id="nav-analytics">
+      <span class="text-lg">📈</span> 트래픽 분석
+    </button>
+    <button onclick="switchTab('versions')" class="sidebar-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-300 transition-all" id="nav-versions">
+      <span class="text-lg">🔄</span> 버전 히스토리
+    </button>
+    <button onclick="switchTab('feedback')" class="sidebar-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-300 transition-all" id="nav-feedback">
+      <span class="text-lg">💬</span> 피드백 수집
+    </button>
+    <div class="pt-2 pb-1">
+      <div class="text-xs text-slate-600 px-3 uppercase tracking-wider">도구</div>
+    </div>
+    <button onclick="switchTab('ai')" class="sidebar-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-300 transition-all" id="nav-ai">
+      <span class="text-lg">🤖</span> AI 분석 생성
+    </button>
+    <button onclick="switchTab('priority')" class="sidebar-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-300 transition-all" id="nav-priority">
+      <span class="text-lg">⚡</span> 우선순위 추천
+    </button>
+    <button onclick="switchTab('integrations')" class="sidebar-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-300 transition-all" id="nav-integrations">
+      <span class="text-lg">🔌</span> 플랫폼 연동
+    </button>
+  </nav>
+
+  <!-- Bottom -->
+  <div class="p-4 border-t border-purple-900/20">
+    <div class="bg-gradient-to-r from-purple-900/40 to-pink-900/20 rounded-xl p-3 text-center">
+      <div class="text-xs text-purple-300 mb-1">💡 AI 크레딧 잔량</div>
+      <div class="w-full bg-purple-900/40 rounded-full h-2 mb-1">
+        <div class="bg-gradient-to-r from-purple-500 to-pink-500 h-2 rounded-full progress-bar" style="width: 60%"></div>
+      </div>
+      <div class="text-xs text-slate-400">12 / 20 크레딧</div>
+    </div>
+  </div>
+</div>
+
+<!-- Main Content -->
+<div class="ml-0 md:ml-60 min-h-screen">
+  <!-- Top Bar -->
+  <header class="sticky top-0 z-30 bg-slate-900/70 backdrop-blur-xl border-b border-purple-900/20 px-4 md:px-6 py-3 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <button onclick="toggleSidebar()" class="md:hidden text-slate-400 hover:text-white p-1">☰</button>
+      <div id="pageTitle" class="font-semibold text-white text-sm md:text-base">📊 대시보드</div>
+    </div>
+    <div class="flex items-center gap-2 md:gap-3">
+      <div class="relative hidden md:block">
+        <input type="text" placeholder="아이디어 검색..." id="globalSearch" oninput="handleGlobalSearch(this.value)" class="text-sm px-4 py-2 pl-8 rounded-xl w-48 lg:w-64 transition-all">
+        <span class="absolute left-2.5 top-2.5 text-slate-400 text-xs">🔍</span>
+      </div>
+      <button onclick="openNewIdeaModal()" class="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white text-xs md:text-sm px-3 md:px-4 py-2 rounded-xl font-medium transition-all flex items-center gap-1.5">
+        <span>+</span> <span class="hidden sm:inline">새 실험체</span>
+      </button>
+      <div class="w-8 h-8 rounded-full bg-gradient-to-br from-pink-400 to-purple-600 flex items-center justify-center text-sm font-bold cursor-pointer">김</div>
+    </div>
+  </header>
+
+  <!-- Pages -->
+  <div class="p-4 md:p-6">
+
+    <!-- DASHBOARD -->
+    <div id="page-dashboard" class="page-content space-y-6">
+      <!-- Stats Row -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+        <div class="lab-border bg-slate-900/60 rounded-2xl p-4 backdrop-blur-sm">
+          <div class="text-2xl mb-1">🧪</div>
+          <div class="text-2xl font-bold text-white">12</div>
+          <div class="text-xs text-slate-400 mt-1">전체 실험체</div>
+          <div class="text-xs text-green-400 mt-1">+3 이번 달</div>
+        </div>
+        <div class="lab-border bg-slate-900/60 rounded-2xl p-4 backdrop-blur-sm">
+          <div class="text-2xl mb-1">🚀</div>
+          <div class="text-2xl font-bold text-white">4</div>
+          <div class="text-xs text-slate-400 mt-1">라이브 서비스</div>
+          <div class="text-xs text-blue-400 mt-1">활성 운영 중</div>
+        </div>
+        <div class="lab-border bg-slate-900/60 rounded-2xl p-4 backdrop-blur-sm">
+          <div class="text-2xl mb-1">📈</div>
+          <div class="text-2xl font-bold text-white">2,847</div>
+          <div class="text-xs text-slate-400 mt-1">총 주간 방문</div>
+          <div class="text-xs text-purple-400 mt-1">↑ 18% 증가</div>
+        </div>
+        <div class="lab-border bg-slate-900/60 rounded-2xl p-4 backdrop-blur-sm">
+          <div class="text-2xl mb-1">⭐</div>
+          <div class="text-2xl font-bold text-white">89</div>
+          <div class="text-xs text-slate-400 mt-1">총 피드백</div>
+          <div class="text-xs text-yellow-400 mt-1">4.2 평균 점수</div>
+        </div>
+      </div>
+
+      <!-- Priority Alert -->
+      <div class="bg-gradient-to-r from-amber-900/30 to-orange-900/20 border border-amber-700/30 rounded-2xl p-4">
+        <div class="flex items-start gap-3">
+          <div class="text-2xl">⚡</div>
+          <div class="flex-1">
+            <div class="font-semibold text-amber-300 text-sm">우선순위 AI 추천</div>
+            <div class="text-xs text-slate-400 mt-1">트래픽·버전·업데이트 빈도 분석 결과, <span class="text-amber-300 font-medium">RecipeAI</span>가 즉시 개선이 필요합니다. 주간 방문 1,200회이지만 v1.2 이후 3주간 업데이트 없음.</div>
+          </div>
+          <button onclick="switchTab('priority')" class="text-xs bg-amber-700/40 text-amber-300 px-3 py-1.5 rounded-lg hover:bg-amber-700/60 transition-all whitespace-nowrap">자세히 →</button>
+        </div>
+      </div>
+
+      <!-- Recent Experiments & Mini Chart -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <div class="lg:col-span-2 lab-border bg-slate-900/60 rounded-2xl p-4 backdrop-blur-sm">
+          <div class="flex items-center justify-between mb-4">
+            <div class="font-semibold text-white text-sm">🔬 최근 실험체</div>
+            <button onclick="switchTab('experiments')" class="text-xs text-purple-400 hover:text-purple-300">전체 보기 →</button>
+          </div>
+          <div class="space-y-3" id="recentExperiments"></div>
+        </div>
+        <div class="lab-border bg-slate-900/60 rounded-2xl p-4 backdrop-blur-sm">
+          <div class="font-semibold text-white text-sm mb-3">📊 트래픽 분포</div>
+          <canvas id="trafficDonut" height="160"></canvas>
+          <div class="mt-3 space-y-2" id="trafficLegend"></div>
+        </div>
+      </div>
+
+      <!-- Weekly Traffic Chart -->
+      <div class="lab-border bg-slate-900/60 rounded-2xl p-4 backdrop-blur-sm">
+        <div class="font-semibold text-white text-sm mb-4">📈 주간 통합 트래픽</div>
+        <canvas id="weeklyChart" height="80"></canvas>
+      </div>
+    </div>
+
+    <!-- EXPERIMENTS BOARD -->
+    <div id="page-experiments" class="page-content hidden space-y-4">
+      <div class="flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center gap-2 flex-wrap">
+          <button onclick="filterExperiments('all')" class="filter-btn active text-xs px-3 py-1.5 rounded-lg bg-purple-600 text-white transition-all" data-filter="all">전체</button>
+          <button onclick="filterExperiments('idea')" class="filter-btn text-xs px-3 py-1.5 rounded-lg bg-slate-700 text-slate-300 hover:bg-slate-600 transition-all" data-filter="idea">💡 아이디어</button>
+          <button onclick="filterExperiments('building')" class="filter-btn text-xs px-3 py-1.5 rounded-lg bg-slate-700 text-slate-300 hover:bg-slate-600 transition-all" data-filter="building">🔨 구현중</button>
+          <button onclick="filterExperiments('live')" class="filter-btn text-xs px-3 py-1.5 rounded-lg bg-slate-700 text-slate-300 hover:bg-slate-600 transition-all" data-filter="live">🚀 라이브</button>
+          <button onclick="filterExperiments('paused')" class="filter-btn text-xs px-3 py-1.5 rounded-lg bg-slate-700 text-slate-300 hover:bg-slate-600 transition-all" data-filter="paused">⏸️ 보류</button>
+        </div>
+        <div class="flex gap-2">
+          <input type="text" placeholder="검색..." id="expSearch" oninput="searchExperiments(this.value)" class="text-xs px-3 py-1.5 rounded-lg w-36">
+          <button onclick="toggleView()" id="viewToggle" class="text-xs px-3 py-1.5 rounded-lg bg-slate-700 text-slate-300 hover:bg-slate-600">⊞ 그리드</button>
+        </div>
+      </div>
+      <div id="experimentBoard" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4"></div>
+    </div>
+
+    <!-- ANALYTICS -->
+    <div id="page-analytics" class="page-content hidden space-y-4">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="lab-border bg-slate-900/60 rounded-2xl p-4">
+          <div class="text-sm text-slate-400 mb-1">오늘 총 방문</div>
+          <div class="text-3xl font-bold text-white">487</div>
+          <div class="text-xs text-green-400 mt-1">↑ 23% vs 어제</div>
+        </div>
+        <div class="lab-border bg-slate-900/60 rounded-2xl p-4">
+          <div class="text-sm text-slate-400 mb-1">이번 주 총 방문</div>
+          <div class="text-3xl font-bold text-white">2,847</div>
+          <div class="text-xs text-purple-400 mt-1">↑ 18% vs 지난 주</div>
+        </div>
+        <div class="lab-border bg-slate-900/60 rounded-2xl p-4">
+          <div class="text-sm text-slate-400 mb-1">가장 성장한 서비스</div>
+          <div class="text-xl font-bold text-white">RecipeAI 🍳</div>
+          <div class="text-xs text-green-400 mt-1">↑ 42% 증가</div>
+        </div>
+      </div>
+
+      <!-- Per Service Traffic -->
+      <div class="lab-border bg-slate-900/60 rounded-2xl p-5">
+        <div class="font-semibold text-white text-sm mb-4">📊 서비스별 트래픽 (최근 7일)</div>
+        <canvas id="serviceBarChart" height="120"></canvas>
+      </div>
+
+      <!-- Traffic Table -->
+      <div class="lab-border bg-slate-900/60 rounded-2xl p-4">
+        <div class="font-semibold text-white text-sm mb-3">📋 서비스별 상세 지표</div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-xs">
+            <thead>
+              <tr class="border-b border-slate-700">
+                <th class="text-left text-slate-400 pb-2 pr-4">서비스</th>
+                <th class="text-right text-slate-400 pb-2 pr-4">오늘</th>
+                <th class="text-right text-slate-400 pb-2 pr-4">이번 주</th>
+                <th class="text-right text-slate-400 pb-2 pr-4">증감</th>
+                <th class="text-right text-slate-400 pb-2">버전</th>
+              </tr>
+            </thead>
+            <tbody id="trafficTable"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Script Snippet -->
+      <div class="lab-border bg-slate-900/60 rounded-2xl p-4">
+        <div class="font-semibold text-white text-sm mb-2">🔌 트래픽 수집 스크립트</div>
+        <div class="text-xs text-slate-400 mb-3">서비스에 아래 한 줄을 삽입하면 자동으로 트래픽이 집계됩니다.</div>
+        <div class="bg-slate-950 rounded-xl p-3 font-mono text-xs text-green-400 relative">
+          &lt;script src="https://idealab.io/track.js?id=YOUR_ID"&gt;&lt;/script&gt;
+          <button onclick="copyScript()" class="absolute right-2 top-2 text-slate-400 hover:text-white bg-slate-800 px-2 py-1 rounded text-xs">복사</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- VERSIONS -->
+    <div id="page-versions" class="page-content hidden space-y-4">
+      <div class="flex items-center gap-3 flex-wrap">
+        <select id="versionServiceSelect" onchange="renderVersions(this.value)" class="text-sm px-3 py-2 rounded-xl">
+          <option value="all">전체 서비스</option>
+          <option value="RecipeAI">RecipeAI</option>
+          <option value="SleepBot">SleepBot</option>
+          <option value="FocusFlow">FocusFlow</option>
+          <option value="CardCraft">CardCraft</option>
+        </select>
+        <button onclick="openVersionModal()" class="bg-purple-700 hover:bg-purple-600 text-white text-xs px-4 py-2 rounded-xl transition-all">+ 새 버전 기록</button>
+      </div>
+      <div id="versionTimeline" class="space-y-3"></div>
+    </div>
+
+    <!-- FEEDBACK -->
+    <div id="page-feedback" class="page-content hidden space-y-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="lab-border bg-slate-900/60 rounded-2xl p-4">
+          <div class="font-semibold text-white text-sm mb-3">💬 수집된 피드백</div>
+          <div class="space-y-3" id="feedbackList"></div>
+        </div>
+        <div class="space-y-4">
+          <div class="lab-border bg-slate-900/60 rounded-2xl p-4">
+            <div class="font-semibold text-white text-sm mb-3">🔗 피드백 링크 생성</div>
+            <div class="space-y-3">
+              <select class="w-full text-sm px-3 py-2 rounded-xl" id="feedbackServiceSelect">
+                <option>RecipeAI</option>
+                <option>SleepBot</option>
+                <option>FocusFlow</option>
+                <option>CardCraft</option>
+              </select>
+              <div class="flex items-center gap-2">
+                <label class="flex items-center gap-2 text-xs text-slate-300">
+                  <input type="checkbox" class="rounded" checked> 공개 설문 활성화
+                </label>
+              </div>
+              <button onclick="generateFeedbackLink()" class="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white text-sm py-2 rounded-xl hover:opacity-90 transition-all">피드백 링크 생성</button>
+            </div>
+          </div>
+          <div class="lab-border bg-slate-900/60 rounded-2xl p-4">
+            <div class="font-semibold text-white text-sm mb-3">📊 감성 분석</div>
+            <canvas id="sentimentChart" height="120"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI ANALYSIS -->
+    <div id="page-ai" class="page-content hidden space-y-4">
+      <div class="lab-border bg-slate-900/60 rounded-2xl p-5">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center text-xl">🤖</div>
+          <div>
+            <div class="font-semibold text-white">AI 1분 시장분석 생성</div>
+            <div class="text-xs text-slate-400">아이디어를 설명하면 타겟·경쟁사·차별점을 자동 분석합니다</div>
+          </div>
+          <div class="ml-auto text-xs bg-purple-900/40 text-purple-300 px-3 py-1 rounded-full">크레딧 2 소모</div>
+        </div>
+        <div class="space-y-3">
+          <div>
+            <label class="text-xs text-slate-400 mb-1 block">아이디어 이름</label>
+            <input type="text" placeholder="예: AI 이력서 매칭 서비스" class="w-full text-sm px-4 py-2.5 rounded-xl" id="aiIdeaName">
+          </div>
+          <div>
+            <label class="text-xs text-slate-400 mb-1 block">아이디어 설명</label>
+            <textarea placeholder="어떤 문제를 해결하나요? 누가 사용자인가요? 어떻게 동작하나요?" class="w-full text-sm px-4 py-2.5 rounded-xl resize-none h-24" id="aiIdeaDesc"></textarea>
+          </div>
+          <div class="flex gap-2">
+            <button onclick="generateAIAnalysis()" class="flex-1 bg-gradient-to-r from-purple-600 to-blue-600 text-white text-sm py-2.5 rounded-xl hover:opacity-90 transition-all font-medium">🔍 시장분석 생성</button>
+            <button onclick="generateMockup()" class="flex-1 bg-gradient-to-r from-pink-600 to-purple-600 text-white text-sm py-2.5 rounded-xl hover:opacity-90 transition-all font-medium">🎨 목업 생성</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- AI Result -->
+      <div id="aiResult" class="hidden space-y-4">
+        <div class="lab-border bg-slate-900/60 rounded-2xl p-5" id="aiAnalysisResult">
+          <div class="flex items-center gap-2 mb-4">
+            <div class="text-lg">🔍</div>
+            <div class="font-semibold text-white">시장 분석 결과</div>
+            <div class="ml-auto text-xs text-green-400 bg-green-900/20 px-2 py-1 rounded-full">생성 완료</div>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="aiCards"></div>
+        </div>
+      </div>
+
+      <!-- Mockup Result -->
+      <div id="mockupResult" class="hidden lab-border bg-slate-900/60 rounded-2xl p-5">
+        <div class="flex items-center gap-2 mb-4">
+          <div class="text-lg">🎨</div>
+          <div class="font-semibold text-white">AI 와이어프레임 목업</div>
+          <div class="ml-auto text-xs text-pink-400 bg-pink-900/20 px-2 py-1 rounded-full">미리보기</div>
+        </div>
+        <div id="mockupPreview" class="bg-slate-950 rounded-xl p-4 font-mono text-xs text-slate-300 max-h-96 overflow-y-auto"></div>
+      </div>
+
+      <!-- Previous Analyses -->
+      <div class="lab-border bg-slate-900/60 rounded-2xl p-5">
+        <div class="font-semibold text-white text-sm mb-3">📋 최근 AI 분석 기록</div>
+        <div class="space-y-2">
+          <div class="flex items-center justify-between py-2 border-b border-slate-800">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-lg bg-purple-900/40 flex items-center justify-center text-sm">🍳</div>
+              <div>
+                <div class="text-sm font-medium text-white">RecipeAI</div>
+                <div class="text-xs text-slate-400">시장분석 + 목업 • 3일 전</div>
+              </div>
+            </div>
+            <button class="text-xs text-purple-400 hover:text-purple-300">보기</button>
+          </div>
+          <div class="flex items-center justify-between py-2 border-b border-slate-800">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-lg bg-blue-900/40 flex items-center justify-center text-sm">😴</div>
+              <div>
+                <div class="text-sm font-medium text-white">SleepBot</div>
+                <div class="text-xs text-slate-400">시장분석 • 1주 전</div>
+              </div>
+            </div>
+            <button class="text-xs text-purple-400 hover:text-purple-300">보기</button>
+          </div>
+          <div class="flex items-center justify-between py-2">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-lg bg-green-900/40 flex items-center justify-center text-sm">🎯</div>
+              <div>
+                <div class="text-sm font-medium text-white">FocusFlow</div>
+                <div class="text-xs text-slate-400">시장분석 + 목업 • 2주 전</div>
+              </div>
+            </div>
+            <button class="text-xs text-purple-400 hover:text-purple-300">보기</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRIORITY -->
+    <div id="page-priority" class="page-content hidden space-y-4">
+      <div class="bg-gradient-to-r from-purple-900/30 to-pink-900/20 border border-purple-700/30 rounded-2xl p-4 mb-2">
+        <div class="text-sm text-slate-300">⚡ <strong class="text-white">우선순위 스코어</strong>는 트래픽(40%) + 버전 업데이트 빈도(30%) + 피드백 점수(30%) 기반으로 계산됩니다.</div>
+      </div>
+      <div id="priorityList" class="space-y-3"></div>
+    </div>
+
+    <!-- INTEGRATIONS -->
+    <div id="page-integrations" class="page-content hidden space-y-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="lab-border bg-slate-900/60 rounded-2xl p-5">
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-orange-500/20 flex items-center justify-center text-xl">🔁</div>
+              <div>
+                <div class="font-semibold text-white">Replit</div>
+                <div class="text-xs text-slate-400">원클릭 배포 연동</div>
+              </div>
+            </div>
+            <div class="text-xs bg-green-900/30 text-green-400 px-2 py-1 rounded-full">연결됨</div>
+          </div>
+          <div class="text-xs text-slate-400 mb-3">연결된 프로젝트 3개</div>
+          <div class="space-y-2 mb-4">
+            <div class="flex items-center justify-between bg-slate-800/50 rounded-lg p-2.5">
+              <span class="text-xs text-slate-300">RecipeAI</span>
+              <a href="#" class="text-xs text-orange-400 hover:underline">replit.com/@dev/recipeai →</a>
+            </div>
+            <div class="flex items-center justify-between bg-slate-800/50 rounded-lg p-2.5">
+              <span class="text-xs text-slate-300">SleepBot</span>
+              <a href="#" class="text-xs text-orange-400 hover:underline">replit.com/@dev/sleepbot →</a>
+            </div>
+          </div>
+          <button onclick="showToast('Replit 동기화 완료! 🎉', 'success')" class="w-full bg-orange-600/40 hover:bg-orange-600/60 text-orange-300 text-sm py-2 rounded-xl transition-all">🔄 동기화</button>
+        </div>
+
+        <div class="lab-border bg-slate-900/60 rounded-2xl p-5">
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-pink-500/20 flex items-center justify-center text-xl">💗</div>
+              <div>
+                <div class="font-semibold text-white">Lovable</div>
+                <div class="text-xs text-slate-400">바이브코딩 연동</div>
+              </div>
+            </div>
+            <div class="text-xs bg-slate-700 text-slate-400 px-2 py-1 rounded-full">미연결</div>
+          </div>
+          <div class="text-xs text-slate-400 mb-4">Lovable URL을 연결하여 프로젝트를 동기화하세요.</div>
+          <input type="text" placeholder="https://lovable.dev/projects/..." class="w-full text-xs px-3 py-2 rounded-xl mb-3">
+          <button onclick="connectLovable()" class="w-full bg-pink-600/40 hover:bg-pink-600/60 text-pink-300 text-sm py-2 rounded-xl transition-all">연결하기</button>
+        </div>
+
+        <div class="lab-border bg-slate-900/60 rounded-2xl p-5">
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-blue-500/20 flex items-center justify-center text-xl">▲</div>
+              <div>
+                <div class="font-semibold text-white">Vercel</div>
+                <div class="text-xs text-slate-400">배포 상태 모니터링</div>
+              </div>
+            </div>
+            <div class="text-xs bg-green-900/30 text-green-400 px-2 py-1 rounded-full">연결됨</div>
+          </div>
+          <div class="space-y-2 mb-4">
+            <div class="flex items-center justify-between">
+              <span class="text-xs text-slate-400">FocusFlow</span>
+              <span class="text-xs text-green-400">● 정상 운영</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-xs text-slate-400">CardCraft</span>
+              <span class="text-xs text-green-400">● 정상 운영</span>
+            </div>
+          </div>
+          <button onclick="showToast('Vercel 배포 상태 확인 완료! ✅', 'success')" class="w-full bg-blue-600/40 hover:bg-blue-600/60 text-blue-300 text-sm py-2 rounded-xl transition-all">상태 확인</button>
+        </div>
+
+        <div class="lab-border bg-slate-900/60 rounded-2xl p-5">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-10 h-10 rounded-xl bg-green-500/20 flex items-center justify-center text-xl">💰</div>
+            <div>
+              <div class="font-semibold text-white">레퍼럴 현황</div>
+              <div class="text-xs text-slate-400">플랫폼 레퍼럴 커미션</div>
+            </div>
+          </div>
+          <div class="space-y-2 mb-4">
+            <div class="flex justify-between text-xs">
+              <span class="text-slate-400">이번 달 클릭</span>
+              <span class="text-white font-medium">247회</span>
+            </div>
+            <div class="flex justify-between text-xs">
+              <span class="text-slate-400">전환</span>
+              <span class="text-white font-medium">12건</span>
+            </div>
+            <div class="flex justify-between text-xs">
+              <span class="text-slate-400">예상 커미션</span>
+              <span class="text-green-400 font-medium">$43.20</span>
+            </div>
+          </div>
+          <button onclick="showToast('레퍼럴 링크가 복사되었습니다! 🔗', 'info')" class="w-full bg-green-600/40 hover:bg-green-600/60 text-green-300 text-sm py-2 rounded-xl transition-all">레퍼럴 링크 복사</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- NEW IDEA MODAL -->
+<div id="newIdeaModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
+  <div class="absolute inset-0 modal-backdrop bg-black/60" onclick="closeNewIdeaModal()"></div>
+  <div class="relative bg-slate-900 border border-purple-700/40 rounded-2xl p-6 w-full max-w-lg max-h-screen overflow-y-auto">
+    <div class="flex items-center gap-3 mb-5">
+      <div class="text-2xl">🧪</div>
+      <div>
+        <div class="font-bold text-white">새 실험체 등록</div>
+        <div class="text-xs text-slate-400">새로운 아이디어를 인큐베이터에 추가하세요</div>
+      </div>
+      <button onclick="closeNewIdeaModal()" class="ml-auto text-slate-400 hover:text-white text-xl leading-none">×</button>
+    </div>
+    <div class="space-y-4">
+      <div>
+        <label class="text-xs text-slate-400 mb-1 block">서비스 이름 *</label>
+        <input type="text" id="newName" placeholder="예: AI 이력서 코치" class="w-full text-sm px-3 py-2.5 rounded-xl">
+      </div>
+      <div>
+        <label class="text-xs text-slate-400 mb-1 block">아이디어 설명 *</label>
+        <textarea id="newDesc" placeholder="어떤 문제를 해결하나요?" class="w-full text-sm px-3 py-2.5 rounded-xl resize-none h-20"></textarea>
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="text-xs text-slate-400 mb-1 block">현재 상태</label>
+          <select id="newStatus" class="w-full text-sm px-3 py-2.5 rounded-xl">
+            <option value="idea">💡 아이디어</option>
+            <option value="building">🔨 구현중</option>
+            <option value="live">🚀 라이브</option>
+            <option value="paused">⏸️ 보류</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-xs text-slate-400 mb-1 block">카테고리</label>
+          <select id="newCategory" class="w-full text-sm px-3 py-2.5 rounded-xl">
+            <option>AI/ML</option>
+            <option>생산성</option>
+            <option>헬스케어</option>
+            <option>교육</option>
+            <option>커머스</option>
+            <option>엔터테인먼트</option>
+            <option>기타</option>
+          </select>
+        </div>
+      </div>
+      <div>
+        <label class="text-xs text-slate-400 mb-1 block">공개 설정</label>
+        <div class="flex gap-3">
+          <label class="flex items-center gap-2 text-sm text-slate-300 cursor-pointer">
+            <input type="radio" name="visibility" value="private" checked> 🔒 비공개
+          </label>
+          <label class="flex items-center gap-2 text-sm text-slate-300 cursor-pointer">
+            <input type="radio" name="visibility" value="public"> 🌐 공개
+          </label>
+        </div>
+      </div>
+      <div class="flex gap-3 pt-2">
+        <button onclick="closeNewIdeaModal()" class="flex-1 bg-slate-700 text-slate-300 text-sm py-2.5 rounded-xl hover:bg-slate-600 transition-all">취소</button>
+        <button onclick="submitNewIdea()" class="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 text-white text-sm py-2.5 rounded-xl hover:opacity-90 transition-all font-medium">🚀 실험체 등록!</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- VERSION MODAL -->
+<div id="versionModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
+  <div class="absolute inset-0 modal-backdrop bg-black/60" onclick="closeVersionModal()"></div>
+  <div class="relative bg-slate-900 border border-purple-700/40 rounded-2xl p-6 w-full max-w-md">
+    <div class="flex items-center gap-3 mb-5">
+      <div class="text-2xl">🔄</div>
+      <div class="font-bold text-white">새 버전 기록</div>
+      <button onclick="closeVersionModal()" class="ml-auto text-slate-400 hover:text-white text-xl">×</button>
+    </div>
+    <div class="space-y-4">
+      <div>
+        <label class="text-xs text-slate-400 mb-1 block">서비스 선택</label>
+        <select id="versionService" class="w-full text-sm px-3 py-2.5 rounded-xl">
+          <option>RecipeAI</option>
+          <option>SleepBot</option>
+          <option>FocusFlow</option>
+          <option>CardCraft</option>
+        </select>
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="text-xs text-slate-400 mb-1 block">버전 번호</label>
+          <input type="text" id="versionNumber" placeholder="예: v2.0" class="w-full text-sm px-3 py-2.5 rounded-xl">
+        </div>
+        <div>
+          <label class="text-xs text-slate-400 mb-1 block">업데이트 유형</label>
+          <select id="versionType" class="w-full text-sm px-3 py-2.5 rounded-xl">
+            <option>기능 추가</option>
+            <option>버그 수정</option>
+            <option>성능 개선</option>
+            <option>UI 개선</option>
+            <option>주요 업데이트</option>
+          </select>
+        </div>
+      </div>
+      <div>
+        <label class="text-xs text-slate-400 mb-1 block">변경 메모</label>
+        <textarea id="versionMemo" placeholder="어떤 변경사항이 있었나요?" class="w-full text-sm px-3 py-2.5 rounded-xl resize-none h-20"></textarea>
+      </div>
+      <div class="flex gap-3">
+        <button onclick="closeVersionModal()" class="flex-1 bg-slate-700 text-slate-300 text-sm py-2.5 rounded-xl hover:bg-slate-600">취소</button>
+        <button onclick="submitVersion()" class="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 text-white text-sm py-2.5 rounded-xl hover:opacity-90 font-medium">기록 저장</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- IDEA DETAIL MODAL -->
+<div id="detailModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
+  <div class="absolute inset-0 modal-backdrop bg-black/60" onclick="closeDetailModal()"></div>
+  <div class="relative bg-slate-900 border border-purple-700/40 rounded-2xl p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+    <button onclick="closeDetailModal()" class="absolute right-4 top-4 text-slate-400 hover:text-white text-xl">×</button>
+    <div id="detailContent"></div>
+  </div>
+</div>
+
+<script>
+// ========================
+// DATA
+// ========================
+let experiments = [
+  { id: 1, name: 'RecipeAI', emoji: '🍳', desc: 'AI가 냉장고 재료로 레시피를 추천해주는 서비스. 사진 한 장으로 재료 인식 후 맞춤 레시피 제공.', status: 'live', category: 'AI/ML', version: 'v1.2', tags: ['AI', 'Food', 'B2C'], visibility: 'public', traffic: 1200, feedback: 4.5, bookmarked: false, liked: true, likes: 24, createdAt: '2024-01-15', lastUpdated: '2024-03-01', platform: 'Replit' },
+  { id: 2, name: 'SleepBot', emoji: '😴', desc: '수면 패턴을 분석하고 최적의 취침 시간을 추천. 알림 자동화 포함.', status: 'live', category: '헬스케어', version: 'v2.1', tags: ['Health', 'AI', 'B2C'], visibility: 'public', traffic: 680, feedback: 4.2, bookmarked: true, liked: false, likes: 18, createdAt: '2024-02-01', lastUpdated: '2024-03-10', platform: 'Vercel' },
+  { id: 3, name: 'FocusFlow', emoji: '🎯', desc: '포모도로 기법 기반 집중력 향상 앱. AI가 개인 패턴에 맞게 집중 시간을 조정.', status: 'live', category: '생산성', version: 'v3.0', tags: ['Productivity', 'SaaS'], visibility: 'public', traffic: 540, feedback: 4.8, bookmarked: false, liked: true, likes: 31, createdAt: '2023-11-20', lastUpdated: '2024-03-15', platform: 'Vercel' },
+  { id: 4, name: 'CardCraft', emoji: '🃏', desc: '명함을 AI가 분석하여 CRM에 자동 등록. 미팅 후 팔로업 메일까지 자동 작성.', status: 'live', category: 'AI/ML', version: 'v1.0', tags: ['AI', 'B2B', 'CRM'], visibility: 'private', traffic: 427, feedback: 3.9, bookmarked: true, liked: false, likes: 9, createdAt: '2024-03-01', lastUpdated: '2024-03-05', platform: 'Replit' },
+  { id: 5, name: 'StudyBuddy', emoji: '📚', desc: 'AI 튜터링 챗봇. 교과서 업로드 후 문제 풀이 및 설명 제공.', status: 'building', category: '교육', version: 'v0.3', tags: ['Education', 'AI'], visibility: 'private', traffic: 0, feedback: 0, bookmarked: false, liked: false, likes: 7, createdAt: '2024-03-10', lastUpdated: '2024-03-18', platform: null },
+  { id: 6, name: 'PriceSniper', emoji: '💸', desc: '쇼핑몰 가격 추적기. 원하는 가격이 되면 즉시 알림. 최저가 보장 구매 연동.', status: 'building', category: '커머스', version: 'v0.1', tags: ['Commerce', 'Automation'], visibility: 'private', traffic: 0, feedback: 0, bookmarked: false, liked: false, likes: 5, createdAt: '2024-03-15', lastUpdated: '2024-03-15', platform: null },
+  { id: 7, name: 'VoiceJournal', emoji: '🎙️', desc: '음성으로 일기를 쓰고 AI가 감정 분석 및 인사이트 제공.', status: 'idea', category: 'AI/ML', version: 'v0.0', tags: ['Audio', 'AI', 'Wellness'], visibility: 'private', traffic: 0, feedback: 0, bookmarked: true, liked: false, likes: 12, createdAt: '2024-03-18', lastUpdated: '2024-03-18', platform: null },
+  { id: 8, name: 'MeetingMind', emoji: '🧠', desc: '회의 녹음을 AI가 요약하고 액션 아이템을 자동 추출하여 Slack/Notion 연동.', status: 'idea', category: 'AI/ML', version: 'v0.0', tags: ['B2B', 'AI', 'Productivity'], visibility: 'private', traffic: 0, feedback: 0, bookmarked: false, liked: false, likes: 19, createdAt: '2024-03-20', lastUpdated: '2024-03-20', platform: null },
+  { id: 9, name: 'NutriScan', emoji: '🥗', desc: '음식 사진으로 칼로리 및 영양소를 즉시 분석. 식단 관리 자동화.', status: 'paused', category: '헬스케어', version: 'v0.5', tags: ['Health', 'AI'], visibility: 'private', traffic: 0, feedback: 0, bookmarked: false, liked: false, likes: 8, createdAt: '2024-01-05', lastUpdated: '2024-02-01', platform: null },
+];
+
+let versions = [
+  { service: 'RecipeAI', version: 'v1.2', type: '버그 수정', memo: '재료 인식 오류 수정, 레시피 카드 UI 개선', date: '2024-03-01', color: 'yellow' },
+  { service: 'RecipeAI', version: 'v1.1', type: '기능 추가', memo: '즐겨찾기 기능, 재료 수동 입력 옵션 추가', date: '2024-02-15', color: 'green' },
+  { service: 'RecipeAI', version: 'v1.0', type: '주요 업데이트', memo: '초기 론칭! AI 재료 인식 + 레시피 추천 기본 기능', date: '2024-01-15', color: 'purple' },
+  { service: 'SleepBot', version: 'v2.1', type: '성능 개선', memo: '수면 분석 알고리즘 정확도 15% 향상', date: '2024-03-10', color: 'blue' },
+  { service: 'SleepBot', version: 'v2.0', type: '주요 업데이트', memo: 'Apple Watch 연동, 수면 스코어 시각화 추가', date: '2024-02-28', color: 'purple' },
+  { service: 'SleepBot', version: 'v1.0', type: '주요 업데이트', memo: '초기 론칭', date: '2024-02-01', color: 'purple' },
+  { service: 'FocusFlow', version: 'v3.0', type: '주요 업데이트', memo: 'AI 집중 패턴 분석, 음악 연동, 팀 기능 추가', date: '2024-03-15', color: 'purple' },
+  { service: 'FocusFlow', version: 'v2.0', type: '기능 추가', memo: '통계 대시보드, 목표 설정 기능', date: '2024-02-10', color: 'green' },
+  { service: 'CardCraft', version: 'v1.0', type: '주요 업데이트', memo: '초기 MVP 론칭. 명함 스캔 및 CRM 연동', date: '2024-03-01', color: 'purple' },
+];
+
+let feedbacks = [
+  { service: 'RecipeAI', user: '박*영', rating: 5, text: '재료 인식이 너무 정확해요! 매일 쓰고 있어요.', date: '2024-03-18', sentiment: 'positive' },
+  { service: 'FocusFlow', user: '이*준', rating: 5, text: '집중력이 확실히 올랐어요. AI 조정 기능이 신기해요.', date: '2024-03-17', sentiment: 'positive' },
+  { service: 'SleepBot', user: '최*현', rating: 4, text: '수면 분석은 좋은데 알림이 너무 자주 와요.', date: '2024-03-16', sentiment: 'neutral' },
+  { service:
