@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>특허 상세 — IdeaLab</title>
+<style>
+  body { font-family: 'Segoe UI', sans-serif; background: #020817; color: #f1f5f9; max-width: 980px; margin: 0 auto; padding: 2rem; }
+  a { color:#60a5fa; text-decoration:none; }
+  a:hover { text-decoration: underline; }
+  h1 { font-size: 1.7rem; margin-bottom: 0.3rem; background: linear-gradient(135deg, #3b82f6, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .sub { color:#475569; margin-bottom: 1.1rem; font-size: 0.92rem; line-height: 1.4; }
+  .nav { display:flex; gap:0.5rem; flex-wrap:wrap; margin: 0.8rem 0 1.2rem; }
+  .nav a { background:#0f172a; border:1px solid #1e293b; padding:0.4rem 0.6rem; border-radius:10px; font-size:0.82rem; }
+  .card { background:#0f172a; border:1px solid #1e293b; border-radius:16px; padding:1.1rem 1.3rem; margin-bottom:0.8rem; }
+  .grid { display:grid; grid-template-columns: 1fr 1fr; gap:0.8rem; }
+  .kpi { display:flex; gap:0.9rem; flex-wrap:wrap; align-items:flex-end; }
+  .pill { display:inline-block; background:#1e293b; color:#cbd5e1; border:1px solid #334155; padding:0.25rem 0.55rem; border-radius:999px; font-size:0.78rem; }
+  .score { font-size:2rem; font-weight:900; letter-spacing:-0.02em; }
+  .muted { color:#94a3b8; }
+  ul { padding-left: 1.2rem; color:#cbd5e1; line-height:1.75; }
+  code { background:#1e293b; padding:0.12rem 0.35rem; border-radius:6px; font-size:0.82rem; }
+  table { width:100%; border-collapse: collapse; }
+  th, td { border-bottom:1px solid #1e293b; text-align:left; padding:0.55rem 0.4rem; vertical-align: top; }
+  th { font-size:0.78rem; color:#64748b; text-transform: uppercase; letter-spacing:0.08em; }
+  .tag { display:inline-block; background:#1e293b; border-radius:8px; padding:0.25rem 0.55rem; font-size:0.78rem; margin: 0.15rem; color:#cbd5e1; border:1px solid #334155; }
+  .check { display:flex; align-items:flex-start; gap:0.55rem; padding:0.45rem 0; border-bottom:1px dashed #1e293b; }
+  .dot { width:10px; height:10px; border-radius:999px; margin-top:0.35rem; flex:0 0 auto; }
+  .dot.pass { background:#10b981; }
+  .dot.warn { background:#f59e0b; }
+  .dot.fail { background:#ef4444; }
+  @media (max-width: 860px) { .grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+  <h1>⚡ IdeaForge</h1>
+  <div class="sub">IdeaLab · 아이디어가 묻히지 않게 — 발굴부터 목업·MVP·운영까지 하나의 귀여운 연구실에서 관리하는 1인 창업가용 아이디어 라이프사이클 플랫폼</div>
+  <div class="nav">
+    <a href="index.html">요약</a>
+    <a href="patent_report.html">특허 상세</a>
+    <a href="market_report.html">시장/전략 상세</a>
+    <a href="plan_report.html">기획서</a>
+    <a href="qa_report.html">QA</a>
+    <a href="mvp.html" target="_blank">MVP 목업</a>
+  </div>
+  
+    <div class="card">
+      <div class="muted" style="font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase">점수</div>
+      <div style="margin-top:0.5rem">
+        <span class="pill">score: 50/100</span>
+        <span class="pill">patentable: false</span>
+        <span class="pill">confidence: 0.5</span>
+      </div>
+      <div style="margin-top:0.6rem"></div>
+      <div style="margin-top:0.8rem;color:#cbd5e1;line-height:1.75">```json
+{
+  "patentable": false,
+  "score": 47,
+  "confidence": 0.55,
+  "score_breakdown": {
+    "novelty": 18,
+    "non_obviousness": 12,
+    "enablement": 9,
+    "claim_scope": 5,
+    "excluded_subject_matter_risk": 3
+  },
+  "similar_cases": [
+    "US10635395 — Idea management and collaboration platform with workflow tracking (USPTO)",
+    "US9619580 — Project lifecycle management system with prototype versioning (USPTO)",
+    "EP3364327 — Agile product development management with multi-project dashboard (EPO)",
+    "US11126943 — SaaS portfolio management with usage analytics and prioritization (USPTO)",
+    "EP3543857 — Multi-tenant application lifecycle management and traffic monitoring (EPO)"
+  ],
+  "differentiators": [
+    "단일 1인 창업가를 대상으로 '아이디어 → 목업 → MVP → 운영 버전 관리'까지 end-to-end로 연결하는 파이프라인 구조는 기존 PM/ALM 툴과 컨셉 차별화 존재",
+    "수십~수백 개의 독립 서비스를 각각 독립된 버전(vN) 단위로 분산 관리하면서, 서비스별 트래픽 데이터를 집계해 개발 우선순위를 자동 추천하는 피드백 루프 구조는 기존 단일 프로젝트 중심 툴과 다름",
+    "바이브코딩(AI-assisted rapid coding) 환경에 특화된 아이디어 인큐베이션 레이어(자동 목업 생성 + 상태 스냅샷 보존)는 검색된 선행기술에서 명시적으로 발견되지 않음"
+  ],
+  "risks": [
+    "핵심 기능(아이디어 저장 → 목업 → 버전관리 → 트래픽 분석)은 기존 Notion, Linear, Mixpanel, GitHub Projects 등의 조합으로 당업자가 자명하게 구현 가능하다고 거절될 위험이 높음",
+    "아이디어 인큐베이션·관리 플랫폼 자체는 사업방법(business method) 또는 추상적 조직화 도구로 분류되어 Alice/Mayo 테스트(USPTO 35 U.S.C. §101) 통과가 어려울 수 있음",
+    "청구항 작성 시 '목업 자동 생성' 또는 '트래픽 기반 우선순위 추천' 알고리즘의 구체적 기술 구현 없이는 소프트웨어 추상 아이디어로 거절 가능성 존재",
+    "멀티 서비스 버전 관리(vN 관리) 자체는 GitHub/GitLab의 multi-repo 관리와 실질적으로 동일하다는 심사관 지적 가능성 있음",
+    "현재 아이디어 수준에서 청구항으로 쓸 수 있는 구체적 알고리즘/자료구조/시스템 아키텍처가 기재되지 않아 enablement(구현가능성) 점수가 낮음"
+  ],
+  "recommendation": "현재 아이디어 수준으로는 독립 특허 출원보다 핵심 기술 차별화 요소를 먼저 구체화하는 것을 권장합니다. 특허 가능성을 높이려면 다음 중 하나 이상을 기술적으로 구체화해야 합니다: ① 아이디어 입력 → 자동 목업 생성 알고리즘(예: LLM 기반 UI 스켈레톤 자동 생성 + 상태 트리 구조), ② 서비스별 트래픽-버전 상태를 연동한 우선순위 스코어링 모델(구체적 수식/가중치 방법론), ③ 수백 개 마이크로서비스의 라이프사이클 상태를 단일 그래프로 관리하는 데이터 모델. 이 세 가지 중 하나를 특허청구 가능한 수준으로 구체화한 후 출원을 검토하세요. UX 컨셉('귀여운 연구실 느낌')은 특허 대상이 아니며 저작권/트레이드드레스 영역입니다.",
+  "summary": "아이디어 인큐베이팅 플랫폼은 1인 개발자의 아이디어 관리부터 MVP 운영까지 연결하는 흥미로운 서비스 컨셉이나, 구성 요소 각각(아이디어 관리, 버전 관리, 트래픽 분석, 우선순위 추천)은 이미 널리 알려진 기술의 조합에 해당합니다. 검색된 선행기술에 완전히 동일한 시스템은 없으나, 당업자가 기존 도구들의 결합으로 자명하게 구현 가능하다는 진보성 거절 위험이 높습니다. 특허 출원 전 '자동 목업 생성 알고리즘' 또는 '트래픽 연동 우선순위 스코어링 모델' 등 비자명한 기술 핵심을 구체화하는 것이 선결 과제입니다.",
+  "evidence": [
+    "유사: US10635395(아이디어 관리 플랫폼)와 US9619580(프로토타입 버전 관리)는 아이디어 수집→프로토타입→버전 추적 흐름을 각각 개별적으로 커버하고 있어, 본 아이디어의 핵심 구성요소 2개가 선행기술에 존재함",
+    "부분 유사: EP3543857(멀티 테넌트 애플리케이션 라이프사이클 + 트래픽 모니터링)은 다수 서비스의 트래픽 집계 및 관리 대시보드를 기재하고 있어, '서비스별 트래픽 기반 우선순위 판단' 기능과 실질적으로 유사한 선행기술로 작용할 수 있음",
+    "비유사(차별점): 검색 결과 어디에도 '1인 창업가의 아이디어 속도와 구현 속도 간 갭을 메우기 위한 자동 목업 생성 + 수백 개 마이크로서비스 독립 버전 관리 + 트래</div>
+      <div class="muted" style="margin-top:0.6rem;font-size:0.86rem">키워드: <code>idea incubation platform, MVP management system, multi-service version control, traffic analytics dashboard, prototype marketplace</code></div>
+    </div>
+    <div class="grid">
+      <div class="card">
+        <div class="muted" style="font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase">유사 특허</div>
+        <ul style="margin-top:0.45rem"><li>없음</li></ul>
+      </div>
+      <div class="card">
+        <div class="muted" style="font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase">근거(evidence)</div>
+        <ul style="margin-top:0.45rem"><li>없음</li></ul>
+      </div>
+    </div>
+    <div class="grid">
+      <div class="card">
+        <div class="muted" style="font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase">차별점</div>
+        <ul style="margin-top:0.45rem"><li>없음</li></ul>
+      </div>
+      <div class="card">
+        <div class="muted" style="font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase">리스크</div>
+        <ul style="margin-top:0.45rem"><li>없음</li></ul>
+      </div>
+    </div>
+    
+    
+</body>
+</html>
