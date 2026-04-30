@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>시장/전략 상세 — IdeaLab</title>
+<style>
+  body { font-family: 'Segoe UI', sans-serif; background: #020817; color: #f1f5f9; max-width: 980px; margin: 0 auto; padding: 2rem; }
+  a { color:#60a5fa; text-decoration:none; }
+  a:hover { text-decoration: underline; }
+  h1 { font-size: 1.7rem; margin-bottom: 0.3rem; background: linear-gradient(135deg, #3b82f6, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .sub { color:#475569; margin-bottom: 1.1rem; font-size: 0.92rem; line-height: 1.4; }
+  .nav { display:flex; gap:0.5rem; flex-wrap:wrap; margin: 0.8rem 0 1.2rem; }
+  .nav a { background:#0f172a; border:1px solid #1e293b; padding:0.4rem 0.6rem; border-radius:10px; font-size:0.82rem; }
+  .card { background:#0f172a; border:1px solid #1e293b; border-radius:16px; padding:1.1rem 1.3rem; margin-bottom:0.8rem; }
+  .grid { display:grid; grid-template-columns: 1fr 1fr; gap:0.8rem; }
+  .kpi { display:flex; gap:0.9rem; flex-wrap:wrap; align-items:flex-end; }
+  .pill { display:inline-block; background:#1e293b; color:#cbd5e1; border:1px solid #334155; padding:0.25rem 0.55rem; border-radius:999px; font-size:0.78rem; }
+  .score { font-size:2rem; font-weight:900; letter-spacing:-0.02em; }
+  .muted { color:#94a3b8; }
+  ul { padding-left: 1.2rem; color:#cbd5e1; line-height:1.75; }
+  code { background:#1e293b; padding:0.12rem 0.35rem; border-radius:6px; font-size:0.82rem; }
+  table { width:100%; border-collapse: collapse; }
+  th, td { border-bottom:1px solid #1e293b; text-align:left; padding:0.55rem 0.4rem; vertical-align: top; }
+  th { font-size:0.78rem; color:#64748b; text-transform: uppercase; letter-spacing:0.08em; }
+  .tag { display:inline-block; background:#1e293b; border-radius:8px; padding:0.25rem 0.55rem; font-size:0.78rem; margin: 0.15rem; color:#cbd5e1; border:1px solid #334155; }
+  .check { display:flex; align-items:flex-start; gap:0.55rem; padding:0.45rem 0; border-bottom:1px dashed #1e293b; }
+  .dot { width:10px; height:10px; border-radius:999px; margin-top:0.35rem; flex:0 0 auto; }
+  .dot.pass { background:#10b981; }
+  .dot.warn { background:#f59e0b; }
+  .dot.fail { background:#ef4444; }
+  @media (max-width: 860px) { .grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+  <h1>⚡ IdeaForge</h1>
+  <div class="sub">IdeaLab · 아이디어가 묻히지 않게 — 발굴부터 목업·MVP·운영까지 하나의 귀여운 연구실에서 관리하는 1인 창업가용 아이디어 라이프사이클 플랫폼</div>
+  <div class="nav">
+    <a href="index.html">요약</a>
+    <a href="patent_report.html">특허 상세</a>
+    <a href="market_report.html">시장/전략 상세</a>
+    <a href="plan_report.html">기획서</a>
+    <a href="qa_report.html">QA</a>
+    <a href="mvp.html" target="_blank">MVP 목업</a>
+  </div>
+  
+    <div class="card">
+      <div class="muted" style="font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase">시장 요약</div>
+      <div style="margin-top:0.45rem">
+        <span class="pill">market_size: N/A</span>
+        <span class="pill">growth: </span>
+      </div>
+      <div style="margin-top:0.8rem;color:#cbd5e1;line-height:1.75">{"market_size":"$4.2B","growth_rate":"19.3% CAGR (2024~2030)","competitors":[{"name":"Notion","description":"올인원 문서·프로젝트 관리 툴로 아이디어 정리에 가장 많이 사용됨","strength":"범용성, 강력한 DB·템플릿 생태계, 브랜드 인지도","weakness":"아이디어 특화 워크플로우 없음, 목업/배포 연동 전혀 없음"},{"name":"Linear","description":"소프트웨어 팀을 위한 이슈 트래커 및 프로젝트 관리 툴","strength":"빠른 UX, 개발 친화적 워크플로우, GitHub 연동","weakness":"1인 창업가보다 팀 단위 타깃, 아이디어 인큐베이팅 개념 없음"},{"name":"Penpot","description":"오픈소스 기반 UI/UX 디자인·목업 툴","strength":"무료 오픈소스, 피그마 대안으로 성장 중, 프로토타이핑 기능","weakness":"아이디어 관리·버전 추적·배포 연동 없음, 러닝커브 존재"},{"name":"Tldraw / Excalidraw","description":"빠른 스케치·화이트보드 기반 아이디어 시각화 툴","strength":"즉각적인 시각화, 협업 용이, 진입 장벽 낮음","weakness":"단순 스케치에 그침, 아이디어 라이프사이클 관리 불가"},{"name":"Bubble / Glide","description":"노코드 앱 빌더로 아이디어를 빠르게 프로토타입화","strength":"코딩 없이 앱 구현, 커뮤니티 풍부","weakness":"아이디어 수집·분류·우선순위화 기능 없음, 다수 아이디어 분산 관리 불가"},{"name":"ProductBoard","description":"제품 로드맵 및 피드백 관리 플랫폼","strength":"고객 피드백 연동, 우선순위 프레임워크 제공","weakness":"팀/기업 대상, 1인 창업가엔 과도한 복잡성, 고가 정책"}],"trends":["바이브코딩(AI 보조 코딩) 확산으로 1인 개발자의 MVP 출시 속도가 10배 이상 빨라짐","솔로 파운더 생태계 급성장: 2024년 기준 Product Hunt 신규 등록 제품의 약 40%가 1인 창업","아이디어 과부하 시대: 노션·옵시디언 등에 아이디어를 쌓아두고 구현 못 하는 '아이디어 묘지' 현상 보편화","No-code/Low-code 툴 확산으로 아이디어→프로토타입 사이클이 단축되며 관리 복잡도 증가","멀티 프로덕트 전략을 가진 인디 해커 증가: 한 사람이 5~20개 마이크로 SaaS를 동시 운영","서비스별 분석·트래픽 통합 대시보드 수요 증가, 단일 창작자가 포트폴리오처럼 제품을 운영하는 트렌드"],"opportunities":["기존 툴들이 '아이디어 발굴→목업→MVP→운영→우선순위 재조정'의 전체 라이프사이클을 하나로 연결하지 못함","솔로 파운더 커뮤니티(인디해커, X/Twitter 빌더 커뮤니티)를 중심으로 빠른 초기 유저 확보 가능","귀여운 연구실 컨셉으로 차별화된 브랜드 포지셔닝 가능, 감성 중심 마케팅으로 바이럴 유리","AI 기반 자동 시장 분석·경쟁사 조사를 아이디어 등록 즉시 제공하는 기능으로 차별화","서비스별 트래픽·성과 통합 대시보드로 '어느 제품에 집중할지' 의사결정 지원, 대체재 없음","유료 전환 포인트 명확: 목업 자동생성, AI 분석 리포트, 커스텀 도메인 모니터링 등 가치가 직관적"],"threats":["Notion AI, Linear AI 등 기존 강자들이 AI 기능 강화로 인접 영역 침범 가능성","1인 창업가 특성상 유료 전환에 보수적, LTV 낮을 수 있음","바이브코딩 툴(Cursor, Lovable 등) 자체에서 아이디어 관리 기능을 내재화할 경우 대체 위험","기술 부채: 수십~수백 개 아이디어·서비스의 데이터를 안정적으로 관리하는 인프라 복잡도 증가","틈새 시장 특성상 초기 마케팅 비용 대비 전환율 예측 어려움"],"business_models":["Freemium SaaS 구독 (아이디어 개수 제한 기반)","Pro 구독 (무제한 아이디어 + AI 분석 + 트래픽 대시보드)","1회성 Add-on (목업 자동생성 크레딧, AI 시장분석 리포트)","커뮤니티 마켓플레이스 (아이디어 템플릿·목업 거래, 수수료 모델, 장기)"],"target_segments":["바이브코딩 활용 1인 창업가 (Cursor, Lovable, Bolt 사용자)","멀티 마이크로 SaaS를 운영하는 인디 해커","사이드 프로젝트를 병렬로 진행하는 개발자·디자이너","스타트업 초기 단계 공동창업자 2인 이하 팀","아이디어는 많지만 구현 우선순위를 못 정하는 비개발자 창업가"],"positioning":{"category":"1인 창업가를 위한 아이디어 라이프사이클 관리 플랫폼","value_prop":"아이디어가 생기는 속도 그대로, 묻히지 않게. 발굴부터 목업·MVP·운영까지 하나의 귀여운 연구실에서","why_now":"바이브코딩으로 구현 속도는 빨라졌지만 아이디어 관리·우선순위화 도구는 여전히 Notion 메모 수준에 머물러 있음. 1인 멀티 프로덕트 창업가가 폭발적으로 증가하는 지금이 타이밍","differentiation":["아이디어→목업→MVP→운영→우선순위 재조정의 전체 라이프사이클을 단일 플랫폼에서","서비스별 버전 트래킹 (A:v1, C:v5) + 트래픽 통합 대시보드로 '어디에 집중할지' 데이터 기반 판단","귀여운 연구실 컨셉의 강력한 브랜드 차별화 (딱딱한 PM툴과 반대 포지셔닝)","AI 자동 시장분석·경쟁사 조사를 아이디어 등록 즉시 제공","단순 메모가 아닌 아이디어별 '실험 카드' 구조로 진행 상태·결과를 체계적으로 누적"]},"strategy":{"pricing":{"model":"Freemium + 월정액 구독","starter":"$0 (아이디어 5개, 목업 1개, 트래픽 연동 없음)","pro":"$12/월 (아이디어 무제한, AI 분석 월 20회, 트래픽 대시보드 5개 서비스)","enterprise":"$29/월 (무제한 전체 + 팀 공유 + 우선 지원 + 트래픽 대시보드 무제한)","notes":"인디 해커 심리상 $10~15 구간이 무리 없는 지출선. 연간 결제 시 2개월 무료 제공으로 연간 ARR 안정화. 목업 자동생성 크레딧은 별도 $3/10크레딧으로 소액 과금 테스트"},"channels":[{"channel":"X(트위터) 빌더 커뮤니티","tactics":["#buildinpublic 태그로 서비스 개발 과정 전체 공개","귀여운 연구실 UI 스크린샷·GIF를 매주 2~3회 포스팅","팔로워 1만 이상 인디해커 계정에 DM으로 베타 초대"],"expected_signal":"베타 신청 200명 / 4주"},{"channel":"Product Hunt 론칭","tactics":["론칭 전 2주간 Coming Soon 페이지로 구독자 확보","헌터로 인디해커 인플루언서 섭외","론칭 당일 X·Discord 커뮤니티 동시 공지"],"expected_signal":"Product Hunt 일간 Top 5 진입, 신규 가입 500명"},{"channel":"인디해커·Reddit(r/SideProject, r/startups)","tactics":["'아이디어 묘지 문제' 공감 유도 글 작성 후 솔루션으로 자연스럽게 소개","실제 사용 사례(아이디어 10개 관리 전후 비교) 스레드 포스팅","커뮤니티 피드백을 제품 개선에 즉시 반영하고 업데이트 공유"],"expected_signal":"월 유기 방문 1,000명, 가입 전환율 15%"},{"channel":"유튜브·</div>
+    </div>
+    <div class="card">
+      <div class="muted" style="font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase">포지셔닝</div>
+      <ul style="margin-top:0.45rem">
+        <li><strong>카테고리</strong>: </li>
+        <li><strong>핵심 가치</strong>: </li>
+        <li><strong>Why now</strong>: </li>
+      </ul>
+      <div class="muted" style="margin-top:0.6rem">차별점</div>
+      <ul style="margin-top:0.35rem"><li>없음</li></ul>
+    </div>
+    <div class="grid">
+      <div class="card">
+        <div class="muted" style="font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase">가격 전략</div>
+        <ul style="margin-top:0.45rem">
+          <li><strong>모델</strong>: </li>
+          <li><strong>Starter</strong>: </li>
+          <li><strong>Pro</strong>: </li>
+          <li><strong>Enterprise</strong>: </li>
+          <li><strong>근거</strong>: </li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="muted" style="font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase">GTM</div>
+        <ul style="margin-top:0.45rem">
+          <li><strong>초기 공략</strong>: </li>
+          <li><strong>Wedge</strong>: </li>
+          <li><strong>메시지</strong>: </li>
+          <li><strong>모션</strong>: </li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="muted" style="font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase">채널/전술</div>
+      <table style="margin-top:0.4rem">
+        <thead><tr><th>채널</th><th>전술</th><th>기대 신호</th></tr></thead>
+        <tbody><tr><td colspan='3' class='muted'>없음</td></tr></tbody>
+      </table>
+    </div>
+    <div class="grid">
+      <div class="card">
+        <div class="muted" style="font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase">KPI</div>
+        <ul style="margin-top:0.45rem"><li>없음</li></ul>
+      </div>
+      <div class="card">
+        <div class="muted" style="font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase">실행 플랜</div>
+        <div class="muted" style="margin-top:0.45rem">30일</div>
+        <ul><li>없음</li></ul>
+        <div class="muted" style="margin-top:0.6rem">90일</div>
+        <ul><li>없음</li></ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="muted" style="font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase">근거(검색 요약)</div>
+      <ul style="margin-top:0.45rem"><li>없음</li></ul>
+    </div>
+    
+</body>
+</html>
