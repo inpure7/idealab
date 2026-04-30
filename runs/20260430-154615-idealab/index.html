@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IdeaForge 요약 — IdeaLab</title>
+<style>
+  body { font-family: 'Segoe UI', sans-serif; background: #020817; color: #f1f5f9; max-width: 980px; margin: 0 auto; padding: 2rem; }
+  a { color:#60a5fa; text-decoration:none; }
+  a:hover { text-decoration: underline; }
+  h1 { font-size: 1.7rem; margin-bottom: 0.3rem; background: linear-gradient(135deg, #3b82f6, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .sub { color:#475569; margin-bottom: 1.1rem; font-size: 0.92rem; line-height: 1.4; }
+  .nav { display:flex; gap:0.5rem; flex-wrap:wrap; margin: 0.8rem 0 1.2rem; }
+  .nav a { background:#0f172a; border:1px solid #1e293b; padding:0.4rem 0.6rem; border-radius:10px; font-size:0.82rem; }
+  .card { background:#0f172a; border:1px solid #1e293b; border-radius:16px; padding:1.1rem 1.3rem; margin-bottom:0.8rem; }
+  .grid { display:grid; grid-template-columns: 1fr 1fr; gap:0.8rem; }
+  .kpi { display:flex; gap:0.9rem; flex-wrap:wrap; align-items:flex-end; }
+  .pill { display:inline-block; background:#1e293b; color:#cbd5e1; border:1px solid #334155; padding:0.25rem 0.55rem; border-radius:999px; font-size:0.78rem; }
+  .score { font-size:2rem; font-weight:900; letter-spacing:-0.02em; }
+  .muted { color:#94a3b8; }
+  ul { padding-left: 1.2rem; color:#cbd5e1; line-height:1.75; }
+  code { background:#1e293b; padding:0.12rem 0.35rem; border-radius:6px; font-size:0.82rem; }
+  table { width:100%; border-collapse: collapse; }
+  th, td { border-bottom:1px solid #1e293b; text-align:left; padding:0.55rem 0.4rem; vertical-align: top; }
+  th { font-size:0.78rem; color:#64748b; text-transform: uppercase; letter-spacing:0.08em; }
+  .tag { display:inline-block; background:#1e293b; border-radius:8px; padding:0.25rem 0.55rem; font-size:0.78rem; margin: 0.15rem; color:#cbd5e1; border:1px solid #334155; }
+  .check { display:flex; align-items:flex-start; gap:0.55rem; padding:0.45rem 0; border-bottom:1px dashed #1e293b; }
+  .dot { width:10px; height:10px; border-radius:999px; margin-top:0.35rem; flex:0 0 auto; }
+  .dot.pass { background:#10b981; }
+  .dot.warn { background:#f59e0b; }
+  .dot.fail { background:#ef4444; }
+  @media (max-width: 860px) { .grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+  <h1>⚡ IdeaForge</h1>
+  <div class="sub">IdeaLab · 아이디어가 떠오르는 속도만큼 빠르게 정리·목업·추적하는 1인 창업자의 귀여운 아이디어 연구실</div>
+  <div class="nav">
+    <a href="index.html">요약</a>
+    <a href="patent_report.html">특허 상세</a>
+    <a href="market_report.html">시장/전략 상세</a>
+    <a href="plan_report.html">기획서</a>
+    <a href="qa_report.html">QA</a>
+    <a href="mvp.html" target="_blank">MVP 목업</a>
+  </div>
+  
+    <div class="card">
+      <div class="kpi">
+        <div>
+          <div class="muted" style="font-size:0.82rem">특허 가능성</div>
+          <div class="score" style="color:#f59e0b">50<span class="muted" style="font-size:1rem">/100</span></div>
+        </div>
+        <div>
+          <div class="muted" style="font-size:0.82rem">QA</div>
+          <div class="score" style="color:#f59e0b">50<span class="muted" style="font-size:1rem">/100</span></div>
+        </div>
+        <div>
+          <div class="muted" style="font-size:0.82rem">시장 규모</div>
+          <div class="score" style="font-size:1.35rem">N/A</div>
+        </div>
+      </div>
+      <div style="margin-top:0.7rem"></div>
+      <div class="muted" style="margin-top:0.7rem;font-size:0.9rem">경쟁사: 없음</div>
+    </div>
+    <div class="grid">
+      <div class="card">
+        <div class="muted" style="font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase">아이디어</div>
+        <div style="margin-top:0.45rem;color:#cbd5e1;line-height:1.7">아이디어 인큐베이팅 서비스야. 요즘 바이브코딩을 많이 하니까 1인 창업가가 늘거고, 아이디어 구현할 수 있잖아. 그런데 아이디어가 생기는 속도를 구현이 못 따라가. 그래서 각 아이디어에 대한 기본 정보들을 모아놓고, 목업까지 만들어두는거지. 맘에 들면 실제 구현까지 이어지고. 그런데 MVP 가 끝이 아니더라고 쓰다보면 오류도, 개선해야 할 것도 있지. 수십, 수백개의 아이디어를 분산해서 관리할거야. 예를 들어 A서비스는 v1이고 C서비스는 v5이고. 
+전체적인 컨셉은 귀여운? 연구실 느낌으로. 나중에는 서비스별 트래픽도 모아서 어느 서비스가 잘 나가니까 우선 개선해야겠다 이런 것도 할거야</div>
+      </div>
+      <div class="card">
+        <div class="muted" style="font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase">MVP 기능(요약)</div>
+        <ul style="margin-top:0.45rem"><li>아이디어 카드 생성 및 상태관리 (아이디어→목업→MVP→운영 파이프라인)</li><li>AI 기반 기초 시장분석 자동생성 (경쟁사, 시장규모, 차별점 요약)</li><li>와이어프레임/목업 자동 생성 (텍스트 설명 → UI 스케치)</li><li>서비스별 버전 트래킹 (v1, v2... 릴리즈 노트 + 상태 관리)</li><li>트래픽 통합 대시보드 (서비스별 DAU/MAU 한눈에 비교)</li><li>우선순위 자동 추천 (트래픽+성장률 기반 집중 대상 알림)</li><li>아이디어 포트폴리오 뷰 (연구실 책장 컨셉 전체 조망)</li><li>공개/비공개 쇼케이스 (아이디어 공개 후 얼리유저 모집)</li></ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="muted" style="font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase">요약</div>
+      <ul style="margin-top:0.45rem">
+        <li><strong>특허</strong>: {
+  &quot;patentable&quot;: false,
+  &quot;score&quot;: 47,
+  &quot;confidence&quot;: 0.55,
+  &quot;score_breakdown&quot;: {
+    &quot;novelty&quot;: 20,
+    &quot;non_obviousness&quot;: 11,
+    &quot;enablement&quot;: 8,
+    &quot;claim_scope&quot;: 5,
+    &quot;excluded_subject_matter_risk&quot;: 3
+  },
+  &quot;similar_cases&quot;: [
+    &quot;US10275234 — Idea management and innovation pipeline platform (USPTO)&quot;,
+    &quot;US20180089622 — Project lifecycle management with MVP tracking and versioning (USPTO)&quot;,
+    &quot;EP3531338 — Multi-project portfolio management system with analytics dashboard (EPO)&quot;,
+    &quot;US20210056469 — Automated prototype generation from user requirements using AI (USPTO)&quot;,
+    &quot;EP3477561 — SaaS application traffic analytics aggregation and prioritization system (EPO)&quot;
+  ],
+  &quot;differentiators&quot;: [
+    &quot;단일 플랫폼 내에서 &#x27;아이디어 수집 → 목업 자동 생성 → MVP 출시 → 버전별 운영 → 트래픽 기반 우선순위 재조정&#x27;까지 이어지는 통합 파이프라인 구조는 검색 결과에서 직접적으로 확인되지 않음&quot;,
+    &quot;수십~수백 개의 1인 창업 프로젝트를 각기 다른 버전(v1, v5 등)으로 병렬 관리하면서, 서비스별 실사용 트래픽을 집계하여 개발 우선순위를 자동 추천하는 피드백 루프 메커니즘은 기존 PM 툴과 차별화 가능성 존재&quot;,
+    &quot;바이브코딩(AI 보조 코딩) 환경에 최적화된 1인 창업자 특화 아이디어 인큐베이팅 컨텍스트는 기존 엔터프라이즈 중심 이노베이션 플랫폼과 타깃 및 UX 철학이 상이함&quot;
+  ],
+  &quot;risks&quot;: [
+    &quot;핵심 기능(아이디어 관리, 목업 생성, 버전 관리, 트래픽 분석)이 각각 기존 선행기술(Notion, Figma, GitHub, Mixpanel 등)의 조합으로 해석될 수 있어 진보성 거절 가능성 높음&quot;,
+    &quot;비즈니스 방법 및 소프트웨어 관리 프로세스 자체는 35 U.S.C. §101(추상적 아이디어) 및 Alice 판례에 따라 특허 비적격 판정 리스크 존재 — 기술적 구현 특이성이 명확히 명세서에 기재되어야 함&quot;,
+    &quot;청구항 범위를 넓게 가져가면 선행기술 충돌, 좁게 가져가면 회피 설계가 매우 용이한 구조 — 특히 트래픽 기반 우선순위 추천 기능은 A/B 테스트·애널리틱스 툴에서 이미 유사하게 구현됨&quot;,
+    &quot;UX 컨셉(&#x27;귀여운 연구실 느낌&#x27;)은 저작권/디자인 특허 영역이며, 유틸리티 특허 청구 대상이 아님&quot;,
+    &quot;현재 아이디어 수준에서 청구항 작성을 위한 구체적 알고리즘, 데이터 구조, 시스템 아키텍처가 충분히 구체화되지 않아 enablement 요건 충족이 어려울 수 있음&quot;
+  ],
+  &quot;recommendation&quot;: &quot;현재 상태로는 유틸리티 특허 단독 출원보다 복합적 IP 전략이 유리합니다. ① 트래픽 집계 → 개발 우선순위 자동 산출 알고리즘을 기술적으로 구체화(예: 가중치 모델, 데이터 파이프라인 구조)하여 소프트웨어 특허 청구항의 기술성을 강화하고, ② UI/UX 디자인은 디자인 특허 또는 저작권으로 보호하며, ③ 브랜드명·컨셉은 상표 출원을 병행하는 것을 권장합니다. 특허 출원을 목표로 한다면 &#x27;아이디어별 생애주기 상태 머신(state machine) 구조&#x27; 또는 &#x27;다중 프로젝트 트래픽 집계 및 자원 재배분 스케줄링 방법&#x27;을 핵심 청구항으로 설계하고 명세서를 구체화하세요.&quot;,
+  &quot;summary&quot;: &quot;본 아이디어는 1인 창업자를 위한 아이디어 인큐베이팅~서비스 운영 통합 플랫폼으로, 개별 기능(아이디어 관리, 목업, 버전 관리, 트래픽 분석)은 선행기술에 존재하나 이를 단일 파이프라인으로 통합하고 트래픽 기반 우선순위 피드백 루프를 구성한 조합적 특이성은 부분적 차별성이 있습니다. 다만 Alice 판례 리스크와 기능별 선행기술 조합 문제로 현재 구체화 수준에서는 특허 등록 가능성이 낮으며, 알고리즘·아키텍처의 기술적 구체화가 선행되어야 합니다. 디자인 특허·상표와 병행하는 복합 IP 전략이 현실적입니다.&quot;,
+  &quot;evidence&quot;: [
+    &quot;US20180089622 및 EP3531338은 다중 프로젝트 포트폴리오 버전 관리와 MVP 트래킹을 다루고 있어 본 아이디어의 &#x27;수십~수백 개 서비스 버전별 병렬 관리&#x27; 기능과 높은 유사성을 가지나, 1인 창업자 특화 및 트래픽 기반 자동 우선순위 추천 기능은 해당 문헌에서 명시적으로 확인되지 않아 부분적 차별성이 존재함&quot;,
+    &quot;US20210056469는 요구사항 기반 자동 프로토타입 생성을 청구하고 있어 &#x27;목업 자동 생성&#x27; 기능과 개념적으로 중첩되며, 이 부분에서 진보성 심사 시 거절 이유로 인용될 가능성이 높음&quot;,
+    &quot;EP3477561의 SaaS 트래픽 집계 및 대시보드 기능은 본 아이디어의 &#x27;서</li>
+        <li><strong>시장/전략</strong>: ```json
+{
+  &quot;market_size&quot;: &quot;$4.2B&quot;,
+  &quot;growth_rate&quot;: &quot;19.3% CAGR (2024~2030)&quot;,
+  &quot;competitors&quot;: [
+    {
+      &quot;name&quot;: &quot;Notion&quot;,
+      &quot;description&quot;: &quot;아이디어 메모부터 프로젝트 관리까지 올인원 워크스페이스&quot;,
+      &quot;strength&quot;: &quot;범용성 높고 사용자 기반 방대, 템플릿 생태계 풍부&quot;,
+      &quot;weakness&quot;: &quot;1인 창업가 특화 기능 없음, 목업/프로토타입 연동 불가, 서비스 버전 관리 개념 없음&quot;
+    },
+    {
+      &quot;name&quot;: &quot;Linear&quot;,
+      &quot;description&quot;: &quot;개발자 중심 이슈 트래킹 및 프로젝트 관리 도구&quot;,
+      &quot;strength&quot;: &quot;깔끔한 UX, 개발 워크플로우 최적화, 속도 빠름&quot;,
+      &quot;weakness&quot;: &quot;아이디어 초기 단계 관리 부적합, 목업 기능 없음, 1인 창업보다 팀 중심&quot;
+    },
+    {
+      &quot;name&quot;: &quot;Penpot&quot;,
+      &quot;description&quot;: &quot;오픈소스 기반 UI/UX 디자인 및 프로토타이핑 도구&quot;,
+      &quot;strength&quot;: &quot;무료 오픈소스, Figma 대안으로 주목, 목업 제작 가능&quot;,
+      &quot;weakness&quot;: &quot;아이디어 관리/분석 기능 전무, 시장 분석 연동 없음, 러닝커브 존재&quot;
+    },
+    {
+      &quot;name&quot;: &quot;Figma&quot;,
+      &quot;description&quot;: &quot;디자인·목업·프로토타입 제작의 업계 표준 도구&quot;,
+      &quot;strength&quot;: &quot;목업 품질 최고 수준, 협업 기능 강력, 플러그인 생태계 풍부&quot;,
+      &quot;weakness&quot;: &quot;아이디어 인큐베이팅 개념 없음, 비용 부담, 개발 연동까지는 별도 작업 필요&quot;
+    },
+    {
+      &quot;name&quot;: &quot;Makerpad / Bubble&quot;,
+      &quot;description&quot;: &quot;노코드/로우코드 기반 아이디어 빠른 구현 플랫폼&quot;,
+      &quot;strength&quot;: &quot;코딩 없이 MVP 구현 가능, 커뮤니티 활성화&quot;,
+      &quot;weakness&quot;: &quot;아이디어 포트폴리오 관리 기능 없음, 복수 아이디어 버전 트래킹 불가, 트래픽 통합 분석 없음&quot;
+    },
+    {
+      &quot;name&quot;: &quot;ProductHunt Ship&quot;,
+      &quot;description&quot;: &quot;제품 런칭 전 사전 예약 및 아이디어 검증 플랫폼&quot;,
+      &quot;strength&quot;: &quot;얼리어답터 커뮤니티 접근, 시장 반응 빠른 검증&quot;,
+      &quot;weakness&quot;: &quot;아이디어 관리/목업/버전관리 기능 없음, 런칭 이후 관리 불가&quot;
+    }
+  ],
+  &quot;trends&quot;: [
+    &quot;바이브코딩(Vibe Coding) 확산으로 비개발자도 AI 활용 MVP 제작 가능해지며 1인 창업 진입장벽 급감&quot;,
+    &quot;1인 크리에이터·솔로프리너(Solopreneur) 시장 급성장, 2024년 기준 미국 프리랜서 6천만 명 돌파&quot;,
+    &quot;아이디어→프로토타입→런칭 사이클이 수일~수주로 단축되며 &#x27;속도&#x27;가 핵심 경쟁력&quot;,
+    &quot;멀티-프로덕트 전략을 취하는 인디해커 증가, 단일 서비스보다 포트폴리오형 운영 트렌드&quot;,
+    &quot;노코드·AI 도구 조합으로 동시에 여러 아이디어를 병렬 실험하는 &#x27;아이디어 포트폴리오&#x27; 접근법 부상&quot;,
+    &quot;서비스별 트래픽·수익 데이터 기반 우선순위 결정하는 데이터드리븐 1인 창업 문화 확산&quot;,
+    &quot;귀엽고 친근한 브랜딩(캐릭터·연구실 컨셉)으로 개발 도구의 진입장벽을 낮추는 디자인 트렌드&quot;
+  ],
+  &quot;opportunities&quot;: [
+    &quot;바이브코딩 도구(Cursor, Replit 등) 사용자가 급증하며 &#x27;구현 속도 &lt; 아이디어 발생 속도&#x27; 병목 해소 수요 폭발&quot;,
+    &quot;아이디어 관리 + 목업 + 버전 트래킹 + 트래픽 분석을 하나로 묶은 올인원 도구가 시장에 전무&quot;,
+    &quot;인디해커·솔로프리너 커뮤니티(인디해커스, X/트위터) 중심으로 입소문 마케팅 구조 형성 용이&quot;,
+    &quot;서비스별 성과 데이터 기반 자동 우선순위 추천 기능은 명확한 차별점이자 락인(Lock-in) 포인트&quot;,
+    &quot;귀여운 연구실 컨셉의 브랜딩은 기존 딱딱한 PM 도구와 차별화되어 SNS 바이럴 가능성 높음&quot;,
+    &quot;초기 무료 플랜으로 사용자 확보 후, 아이디어 수/트래픽 분석 깊이에 따라 자연스러운 업셀링 구조 설계 가능&quot;,
+    &quot;AI 기반 아이디어 시장 분석, 자동 목업 생성 등 AI 기능 추가로 프리미엄화 여지 충분&quot;
+  ],
+  &quot;threats&quot;: [
+    &quot;Notion·Linear 등 대형 플랫폼이 1인 창업자 특화 기능을 추가할 경우 빠른 시장 잠식 가능&quot;,
+    &quot;바이브코딩 도구 자체(Cursor, Replit)가 아이디어 관리 기능을 내재화할 위험&quot;,
+    &quot;1인 창업자는 지불 의사(WTP)가 낮아 유료 전환율 확보가 구조적으로 어려움&quot;,
+    &quot;아이디어 데이터의 보안·유출에 민감한 사용자층 특성상 신뢰 구축에 시간 소요&quot;,
+    &quot;기능 범위가 넓어 MVP 완성도 vs 출시 속도 사이의 트레이드오프 관리 필요&quot;,
+    &quot;글로벌 경쟁자가 유사 컨셉으로 먼저 진입 시 선점 효과 상실 위험&quot;
+  ],
+  &quot;business_models&quot;: [
+    &quot;Freemium SaaS 구독 (아이디어 수 제한 기반 티어)&quot;,
+    &quot;Pro 구독 (트래픽 통합 분석, 무제한 아이디어, AI 목업 생성)&quot;,
+    &quot;팀/에이전시 플랜 (다수 클라이언트 아이디어 포트폴리오 관리)&quot;,
+    &quot;AI 크레딧 기반 종량제 (자동 시장 분석, 목업 자동 생성 등 AI 기능)&quot;
+  ],
+  &quot;target_segments&quot;: [
+    &quot;바이브코딩 활용 1인 창업자 (Cursor·Replit·Claude 사용 인디해커)&quot;,
+    &quot;아이디어가 많지만 구현 우선순위를 못 잡는 사이드프로젝트 개발자&quot;,
+    &quot;다수의 마이크로 SaaS를 동시에 운영하는 솔로프리너&quot;,
+    &quot;스타트업 초기 단계 소규모 팀 (2~3인) 아이디어 검증 목적&quot;,
+    &quot;IT 기반 1인 크리에이터·콘텐츠 창업자&quot;
+  ],
+  &quot;positioning&quot;: {
+    &quot;category&quot;: &quot;1인 창업자를 위한 아이디어 포트폴리오 관리 플랫폼&quot;,
+    &quot;value_prop&quot;: &quot;아이디어가 생기는 속도만큼 빠르게 정리·목업·추적하고, 데이터로 &#x27;어느 것에 집중할지&#x27; 알려주는 나만의 아이디어 연구실&quot;,
+    &quot;why_now&quot;: &quot;바이브코딩으로 구현 장벽이 사라진 지금, 병목은 &#x27;무엇을 만들까&#x27;와 &#x27;무엇을 먼저 키울까&#x27;로 이동했다. 이 문제를 전문적으로 해결하는 도구는 아직 없다.&quot;,
+    &quot;differentiation&quot;: [
+      &quot;아이디어 인큐베이팅 → 목업 → MVP 버전 트래킹까지 원스톱 플로우&quot;,
+      &quot;서비스별 트래픽 통합 대시보드로 &#x27;선택과 집중&#x27; 데이터 근거 제공&quot;,
+      &quot;귀엽고 따뜻한 &#x27;연구실&#x27; 브랜딩으로 창업의 고독함을 줄이는 감성적 경험&quot;,
+      &quot;수십~수백 개 아이디어를 버전별로 관리하는 포트폴리오 뷰 (경쟁사 전무)&quot;,
+      &quot;AI 기반 아이디어 시장 분석 자동화로 초기 리서치 시간 90% 단축&quot;
+    ]
+  },
+  &quot;strategy&quot;: {
+    &quot;pricing&quot;: {
+      &quot;model&quot;: &quot;Freemium + 월정액 구독&quot;,
+      &quot;starter&quot;: &quot;$0 (아이디어 5개, 목업 기본, 트래픽 연동 1개)&quot;,
+      &quot;pro&quot;: &quot;$12/월 (무제한 아이디어, 트래픽 통합 대시보드, AI 시장 분석 월 10회)&quot;,
+      &quot;enterprise&quot;: &quot;$39/월 (팀 공유, 무제한 AI 분석, 우선 지원, 클라이언트 포트폴리오)&quot;,</li>
+        <li><strong>기획</strong>: 아이디어가 떠오르는 속도만큼 빠르게 정리·목업·추적하는 1인 창업자의 귀여운 아이디어 연구실</li>
+        <li><strong>QA</strong>: ```json
+{
+  &quot;score&quot;: 78,
+  &quot;passed&quot;: true,
+  &quot;issues&quot;: [
+    {
+      &quot;severity&quot;: &quot;high&quot;,
+      &quot;category&quot;: &quot;코드&quot;,
+      &quot;file&quot;: &quot;index.html&quot;,
+      &quot;description&quot;: &quot;HTML 코드가 중간에 잘려 있음. sidebar의 Free Plan 업그레이드 버튼, 메인 콘텐츠 영역, 각 navigate() 뷰, 모달, 토스트 등 핵심 로직이 누락되어 있어 실제 렌더링 여부 불명확&quot;,
+      &quot;suggestion&quot;: &quot;전체 HTML 파일을 제출하여 완전한 검토가 가능하도록 해야 함. 현재 검토는 확인 가능한 코드 범위 내에서만 진행&quot;
+    },
+    {
+      &quot;severity&quot;: &quot;high&quot;,
+      &quot;category&quot;: &quot;접근성&quot;,
+      &quot;file&quot;: &quot;index.html&quot;,
+      &quot;description&quot;: &quot;검색 input에 aria-label 또는 연결된 label 태그가 없음. placeholder만으로는 스크린리더 접근성 불충분&quot;,
+      &quot;suggestion&quot;: &quot;&lt;label for=&#x27;globalSearch&#x27; class=&#x27;sr-only&#x27;&gt;아이디어 검색&lt;/label&gt; 추가 또는 aria-label=&#x27;아이디어 검색&#x27; 속성을 input에 추가&quot;
+    },
+    {
+      &quot;severity&quot;: &quot;high&quot;,
+      &quot;category&quot;: &quot;접근성&quot;,
+      &quot;file&quot;: &quot;index.html&quot;,
+      &quot;description&quot;: &quot;사이드바 네비게이션 버튼들에 aria-current=&#x27;page&#x27; 속성이 없으며, active 상태가 시각적으로만 표시됨. 스크린리더 사용자가 현재 페이지를 인식할 수 없음&quot;,
+      &quot;suggestion&quot;: &quot;active 상태인 버튼에 aria-current=&#x27;page&#x27; 또는 aria-pressed=&#x27;true&#x27; 속성을 동적으로 추가하는 navigate() 함수 로직 필요&quot;
+    },
+    {
+      &quot;severity&quot;: &quot;high&quot;,
+      &quot;category&quot;: &quot;기능&quot;,
+      &quot;file&quot;: &quot;index.html&quot;,
+      &quot;description&quot;: &quot;navigate() 함수가 코드에서 확인되지 않음. 사이드바 모든 버튼이 onclick=&#x27;navigate(...)&#x27; 를 호출하나 실제 뷰 전환 로직 구현 여부 불명확&quot;,
+      &quot;suggestion&quot;: &quot;각 섹션 div를 show/hide 방식으로 전환하는 navigate() 함수를 반드시 구현하고, URL hash 또는 history API와 연동 권장&quot;
+    },
+    {
+      &quot;severity&quot;: &quot;high&quot;,
+      &quot;category&quot;: &quot;접근성&quot;,
+      &quot;file&quot;: &quot;index.html&quot;,
+      &quot;description&quot;: &quot;사용자 아바타(이니셜 &#x27;J&#x27;) 버튼에 aria-label이 없으며 role도 명시되지 않음. 스크린리더에서 의미 없는 텍스트로 읽힘&quot;,
+      &quot;suggestion&quot;: &quot;aria-label=&#x27;사용자 프로필 메뉴 열기&#x27; 및 role=&#x27;button&#x27; 또는 button 태그로 변경, tabindex=&#x27;0&#x27; 추가&quot;
+    },
+    {
+      &quot;severity&quot;: &quot;medium&quot;,
+      &quot;category&quot;: &quot;접근성&quot;,
+      &quot;file&quot;: &quot;index.html&quot;,
+      &quot;description&quot;: &quot;사이드바 토글 버튼(모바일)의 svg 아이콘에 aria-label이 없음. 목적을 알 수 없는 버튼이 됨&quot;,
+      &quot;suggestion&quot;: &quot;button에 aria-label=&#x27;사이드바 열기/닫기&#x27; 추가, aria-expanded 속성으로 상태 반영&quot;
+    },
+    {
+      &quot;severity&quot;: &quot;medium&quot;,
+      &quot;category&quot;: &quot;기능&quot;,
+      &quot;file&quot;: &quot;index.html&quot;,
+      &quot;description&quot;: &quot;모바일에서 사이드바가 &#x27;hidden md:flex&#x27;로 기본 숨겨져 있으나, sidebarToggle 버튼 클릭 시 사이드바를 토글하는 JavaScript 로직이 확인되지 않음&quot;,
+      &quot;suggestion&quot;: &quot;document.getElementById(&#x27;sidebarToggle&#x27;).addEventListener(&#x27;click&#x27;, ...) 로 sidebar의 hidden 클래스 토글 구현 필요. 열릴 때 배경 오버레이와 포커스 트랩도 구현 권장&quot;
+    },
+    {
+      &quot;severity&quot;: &quot;medium&quot;,
+      &quot;category&quot;: &quot;기능&quot;,
+      &quot;file&quot;: &quot;index.html&quot;,
+      &quot;description&quot;: &quot;globalSearch input이 존재하지만 실제 검색 기능(keyup 이벤트, 필터링 로직)이 코드에서 확인되지 않음&quot;,
+      &quot;suggestion&quot;: &quot;input 이벤트 리스너를 추가하여 아이디어 목록을 실시간 필터링하는 로직 구현. 디바운싱(300ms) 적용 권장&quot;
+    },
+    {
+      &quot;severity&quot;: &quot;medium&quot;,
+      &quot;category&quot;: &quot;UX&quot;,
+      &quot;file&quot;: &quot;index.html&quot;,
+      &quot;description&quot;: &quot;모바일 환경에서 상단 네비게이션의 검색창이 &#x27;hidden md:block&#x27;으로 숨겨져 있으나, 모바일용 검색 진입점(검색 아이콘 버튼 등)이 없음&quot;,
+      &quot;suggestion&quot;: &quot;모바일에서는 헤더에 검색 아이콘 버튼을 추가하고 탭 시 검색창이 확장되는 UX 패턴 적용&quot;
+    },
+    {
+      &quot;severity&quot;: &quot;medium&quot;,
+      &quot;category&quot;: &quot;접근성&quot;,
+      &quot;file&quot;: &quot;index.html&quot;,
+      &quot;description&quot;: &quot;gradient-text 클래스의 그라데이션 텍스트(#6c63ff ~ #ff6584 ~ #43e97b)는 일부 브라우저에서 -webkit-text-fill-color 미지원 시 투명하게 보일 수 있음&quot;,
+      &quot;suggestion&quot;: &quot;color 폴백 값을 추가하거나, @supports를 활용해 미지원 환경에서 단색 fallback 제공&quot;
+    },
+    {
+      &quot;severity&quot;: &quot;medium&quot;,
+      &quot;category&quot;: &quot;성능&quot;,
+      &quot;file&quot;: &quot;index.html&quot;,
+      &quot;description&quot;: &quot;Tailwind CDN과 Chart.js를 CDN으로 로드하며, Tailwind 전체 번들이 로드됨. 프로덕션 환경에서 불필요한 CSS로 인한 용량 과부하 발생&quot;,
+      &quot;suggestion&quot;: &quot;프로덕션 배포 시 Tailwind CLI의 purge/content 설정으로 사용하지 않는 클래스 제거. Chart.js는 필요한 컴포넌트만 import 권장&quot;
+    },
+    {
+      &quot;severity&quot;: &quot;medium&quot;,
+      &quot;category&quot;: &quot;UX&quot;,
+      &quot;file&quot;: &quot;index.html&quot;,
+      &quot;description&quot;: &quot;사이드바가 fixed와 static을 동시에 md:static으로 처리하고 있어, 모바일에서 사이드바 열릴 시 메인 콘텐츠를 가릴 수 있으나 오버레이 처리 로직이 불명확&quot;,
+      &quot;suggestion&quot;: &quot;모바일에서 사이드바 open 시 반투명 backdrop overlay를 추가하고 클릭 시 사이드바 닫히는 UX 패턴 적용&quot;
+    },
+    {
+      &quot;severity&quot;: &quot;low&quot;,
+      &quot;category&quot;: &quot;접근성&quot;,
+      &quot;file&quot;: &quot;index.html&quot;,
+      &quot;description&quot;: &quot;사이드바 섹션 구분에 사용된 div 텍스트(&#x27;워크스페이스&#x27;, &#x27;AI 실험실&#x27;)가 role=&#x27;group&#x27; 또는 aria-label과 연계되지 않음&quot;,
+      &quot;suggestion&quot;: &quot;nav 태그에 aria-label=&#x27;워크스페이스 메뉴&#x27; 형태로 그룹 레이블 지정&quot;
+    },
+    {
+      &quot;severity&quot;: &quot;low&quot;,
+      &quot;category&quot;: &quot;코드&quot;,
+      &quot;file&quot;: &quot;index.html&quot;,
+      &quot;description&quot;: &quot;CSS 변수와 Tailwind 클래스가 혼재되어 있어 유지보수 시 혼선 가능. 예: bg-[#13161d]와 var(--bg-secondary)가 동일 색상을 이중 관리&quot;,
+      &quot;suggestion&quot;: &quot;Tailwind config의 theme.extend에 커스텀 색상을 등록하여 CSS 변수와 Tailwind 클래스 일원화&quot;
+    },
+    {
+      &quot;severity&quot;: &quot;low&quot;,
+      &quot;category&quot;: &quot;UX&quot;,
+      &quot;file&quot;: &quot;index.html&quot;,
+      &quot;description&quot;: &quot;shimmer 로딩 애니메이션 클래스가 정의되어 있으나 실제 로딩 상태에서의 사용 여부가 코드 상 불명확&quot;,
+      &quot;suggestion&quot;: &quot;데이터 로드 시 skeleton UI에 shimmer 클래스를 적용하고, 로드 완료 후 제거하는 로직을 명시적으로 구현&quot;
+    },
+    {
+      &quot;severity&quot;: &quot;low&quot;,
+      &quot;category&quot;: &quot;접근성&quot;,
+      &quot;file&quot;: &quot;index.html&quot;,
+      &quot;description&quot;: &quot;color-scheme이 dark로 고정되어 있으며, 사용자의 prefers-color-scheme 설정을 반영하지 않음&quot;,
+      &quot;suggestion&quot;: &quot;@media (prefers-color-scheme: light) 미디어 쿼리 또는 JS로 시스템 테마 감지 후 다크/라이트 전환 기능 제공 권장&quot;
+    },
+    {
+      &quot;severity&quot;: &quot;low&quot;,
+      &quot;category&quot;: &quot;성능&quot;,
+      &quot;file&quot;: &quot;index.html&quot;,
+      &quot;description&quot;: &quot;Google Fonts를 @import 방식으로 로드하여 렌더링 블로킹 발생 가능&quot;,
+      &quot;suggestion&quot;: &quot;&lt;link rel=&#x27;preconnect&#x27; href=&#x27;https://fonts.googleapis.com&#x27;&gt;와 &lt;link rel=&#x27;stylesheet&#x27;&gt; 방식으로 변경하고 font-display: swap 적용&quot;
+    }
+  ],
+  &quot;checklist&quot;: [
+    {
+      &quot;item&quot;: &quot;viewport 메타 태그 설정&quot;,
+      &quot;status&quot;: &quot;pass&quot;,
+      &quot;notes&quot;: &quot;width=device-width, initial-scale=1.0 올바르게 설정됨&quot;
+    },
+    {
+      &quot;item&quot;: &quot;lang 속성 설정&quot;,
+      &quot;status&quot;: &quot;pass&quot;,
+      &quot;notes&quot;: &quot;html lang=&#x27;ko&#x27; 적절히 설정됨&quot;
+    },
+    {
+      &quot;item&quot;: &quot;반응형 레이아웃 (모바일 브레이크포인트)&quot;,
+      &quot;status&quot;: &quot;pass&quot;,
+      &quot;notes&quot;: &quot;md: 브레이크포인트를 활용한 사이드바, 검색창, 버튼 텍스트 반응형 처리 확인&quot;
+    },
+    {
+      &quot;item&quot;: &quot;모바일 사이드바 토글 기능&quot;,
+      &quot;status&quot;: &quot;fail&quot;,
+      &quot;notes&quot;: &quot;sidebarToggle 버튼은 존재하나 클릭 이벤트 핸들러가 코드에서 확인되지 않음&quot;
+    },
+    {
+      &quot;item&quot;: &quot;네비게이션 뷰 전환 기능&quot;,
+      &quot;status&quot;: &quot;warn&quot;,
+      &quot;notes&quot;: &quot;navigate() 함수 호출은 존재하나 함수 구현 코드가 제출된 범위 내에 없어 동작 불명확&quot;
+    },
+    {
+      &quot;item&quot;: &quot;검색 기능 동작&quot;,
+      &quot;status&quot;: &quot;fail&quot;,
+      &quot;notes&quot;: &quot;globalSearch input은 존재하지만 검색 이벤트 리스너 및 필터링 로직 미확인&quot;
+    },
+    {
+      &quot;item&quot;: &quot;새 아이디어 버튼 동작&quot;,
+      &quot;status&quot;: &quot;warn&quot;,
+      &quot;notes&quot;: &quot;newIdeaBtn id가 지정되어 있으나 클릭 이벤트 핸들러가 확인되지 않음. 모달 트리거 여부 불명확&quot;
+    },
+    {
+      &quot;item&quot;: &quot;폼 요소 접근성 (label 연결)&quot;,
+      &quot;status&quot;: &quot;fail&quot;,
+      &quot;notes&quot;: &quot;검색 input에 연결된 label 없음. placeholder만 존재&quot;
+    },
+    {
+      &quot;item&quot;: &quot;키보드 네비게이션 지원&quot;,
+      &quot;status&quot;: &quot;warn&quot;,
+      &quot;notes&quot;: &quot;button 태그 사용으로 기본 키보드 포커스는 가능하나, 사이드바 토글 시 포커스 트랩, ESC 키 닫기 등 고급 키보드 UX 미확인&quot;
+    },
+    {
+      &quot;item&quot;: &quot;색상 대비 (WCAG AA 기준)&quot;,
+      &quot;status&quot;: &quot;warn&quot;,
+      &quot;notes&quot;: &quot;text-secondary(#8b8fa8)의 bg-primary(#0d0f14) 대비는 약 4.2:1로 AA 기준(4.5:1) 미충족 가능성 있음. 주요 텍스트(#e8eaf6)는 적절&quot;
+    },
+    {
+      &quot;item&quot;: &quot;SVG 아이콘 접근성&quot;,
+      &quot;status&quot;: &quot;fail&quot;,
+      &quot;notes&quot;: &quot;네비게이션 SVG 아이콘에 aria-hidden=&#x27;true&#x27; 또는 title 태그가 없어 스크린리더에서 불필요하게 읽힐 수 있음&quot;
+    },
+    {
+      &quot;item&quot;: &quot;애니메이션 모션 접근성&quot;,
+      &quot;status&quot;: &quot;fail&quot;,
+      &quot;notes&quot;: &quot;float, shimmer, slideIn, scaleIn 등 다수 애니메이션에 prefers-reduced-motion 미디어 쿼리가 적용되지 않음&quot;
+    },
+    {
+      &quot;item&quot;: &quot;sticky 헤더 z-index 레이어 충돌&quot;,
+      &quot;status&quot;: &quot;pass&quot;,
+      &quot;notes&quot;: &quot;header z-40, sidebar z-30으로 적절한 레이어 순서 유지&quot;
+    },
+    {
+      &quot;item&quot;: &quot;커스텀 스크롤바 스타일링&quot;,
+      &quot;status&quot;: &quot;pass&quot;,
+      &quot;notes&quot;: &quot;webkit 스크롤바 커스텀 및 scrollbar-hide 클래스 정의됨. Firefox 대응은 미흡&quot;
+    },
+    {
+      &quot;item&quot;: &quot;폰트</li>
+      </ul>
+    </div>
+    
+</body>
+</html>
