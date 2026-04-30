@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>특허 상세 — IdeaLab</title>
+<style>
+  body { font-family: 'Segoe UI', sans-serif; background: #020817; color: #f1f5f9; max-width: 980px; margin: 0 auto; padding: 2rem; }
+  a { color:#60a5fa; text-decoration:none; }
+  a:hover { text-decoration: underline; }
+  h1 { font-size: 1.7rem; margin-bottom: 0.3rem; background: linear-gradient(135deg, #3b82f6, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .sub { color:#475569; margin-bottom: 1.1rem; font-size: 0.92rem; line-height: 1.4; }
+  .nav { display:flex; gap:0.5rem; flex-wrap:wrap; margin: 0.8rem 0 1.2rem; }
+  .nav a { background:#0f172a; border:1px solid #1e293b; padding:0.4rem 0.6rem; border-radius:10px; font-size:0.82rem; }
+  .card { background:#0f172a; border:1px solid #1e293b; border-radius:16px; padding:1.1rem 1.3rem; margin-bottom:0.8rem; }
+  .grid { display:grid; grid-template-columns: 1fr 1fr; gap:0.8rem; }
+  .kpi { display:flex; gap:0.9rem; flex-wrap:wrap; align-items:flex-end; }
+  .pill { display:inline-block; background:#1e293b; color:#cbd5e1; border:1px solid #334155; padding:0.25rem 0.55rem; border-radius:999px; font-size:0.78rem; }
+  .score { font-size:2rem; font-weight:900; letter-spacing:-0.02em; }
+  .muted { color:#94a3b8; }
+  ul { padding-left: 1.2rem; color:#cbd5e1; line-height:1.75; }
+  code { background:#1e293b; padding:0.12rem 0.35rem; border-radius:6px; font-size:0.82rem; }
+  table { width:100%; border-collapse: collapse; }
+  th, td { border-bottom:1px solid #1e293b; text-align:left; padding:0.55rem 0.4rem; vertical-align: top; }
+  th { font-size:0.78rem; color:#64748b; text-transform: uppercase; letter-spacing:0.08em; }
+  .tag { display:inline-block; background:#1e293b; border-radius:8px; padding:0.25rem 0.55rem; font-size:0.78rem; margin: 0.15rem; color:#cbd5e1; border:1px solid #334155; }
+  .check { display:flex; align-items:flex-start; gap:0.55rem; padding:0.45rem 0; border-bottom:1px dashed #1e293b; }
+  .dot { width:10px; height:10px; border-radius:999px; margin-top:0.35rem; flex:0 0 auto; }
+  .dot.pass { background:#10b981; }
+  .dot.warn { background:#f59e0b; }
+  .dot.fail { background:#ef4444; }
+  @media (max-width: 860px) { .grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+  <h1>⚡ IdeaForge</h1>
+  <div class="sub">IdeaLab · 수백 개의 아이디어를 연구실 서랍에서 꺼내 목업→MVP→운영까지 키워내는 1인 창업가의 아이디어 포트폴리오 OS</div>
+  <div class="nav">
+    <a href="index.html">요약</a>
+    <a href="patent_report.html">특허 상세</a>
+    <a href="market_report.html">시장/전략 상세</a>
+    <a href="plan_report.html">기획서</a>
+    <a href="qa_report.html">QA</a>
+    <a href="mvp.html" target="_blank">MVP 목업</a>
+  </div>
+  
+    <div class="card">
+      <div class="muted" style="font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase">점수</div>
+      <div style="margin-top:0.5rem">
+        <span class="pill">score: 50/100</span>
+        <span class="pill">patentable: false</span>
+        <span class="pill">confidence: 0.5</span>
+      </div>
+      <div style="margin-top:0.6rem"></div>
+      <div style="margin-top:0.8rem;color:#cbd5e1;line-height:1.75">```json
+{
+  "patentable": false,
+  "score": 52,
+  "confidence": 0.55,
+  "score_breakdown": {
+    "novelty": 20,
+    "non_obviousness": 13,
+    "enablement": 10,
+    "claim_scope": 6,
+    "excluded_subject_matter_risk": 3
+  },
+  "similar_cases": [
+    "US10496265B2 — Integrated development and project management platform with versioning (USPTO)",
+    "US20190171999A1 — Idea management and collaborative innovation workflow system (USPTO)",
+    "EP3422237A1 — Agile project lifecycle management with iterative prototyping support (EPO)",
+    "US20210342748A1 — Multi-tenant SaaS dashboard with per-service analytics aggregation (USPTO)",
+    "EP3716102A1 — Automated mockup generation system linked to product requirement documents (EPO)"
+  ],
+  "differentiators": [
+    "단일 1인 창업자 중심의 '수십~수백 개 아이디어 병렬 인큐베이션' + 아이디어별 독립 버전 트래킹(A:v1, C:v5 등)을 하나의 워크스페이스에서 관리하는 구조는 기존 프로젝트 관리 툴(Jira, Notion, Linear)과 명확히 구분됨",
+    "아이디어 발굴 → 기본정보 수집 → 목업 자동 생성 → MVP 배포 → 운영 오류/개선 추적까지 단일 파이프라인으로 연결하는 end-to-end 흐름은 검색 결과에서 통합된 형태로 발견되지 않음",
+    "서비스별 실시간 트래픽 집계를 기반으로 '개선 우선순위 자동 추천'하는 피드백 루프 메커니즘은 단순 analytics 대시보드와 차별화되는 의사결정 지원 기능임"
+  ],
+  "risks": [
+    "핵심 기능 각각(아이디어 관리, 목업 생성, 버전 관리, 트래픽 분석)은 이미 공지된 기술이며, 이들의 결합이 '당업자에게 자명한 조합'으로 거절될 가능성이 높음 — 진보성(35 USC §103 / EPC Art.56) 극복이 최대 난관",
+    "아이디어 인큐베이션·관리 워크플로우 자체는 추상적 사업방법에 해당할 수 있어 Alice/Mayo 테스트(35 USC §101) 적용 시 비특허 대상 리스크 존재 — 소프트웨어적 구현의 '기술적 특이성' 입증 필요",
+    "청구항 범위를 넓게 설정하면 Notion, Jira, Figma, Mixpanel 등 기존 도구 조합으로 회피 설계가 용이하며, 좁게 설정하면 방어력이 약해지는 딜레마 존재",
+    "UI/UX 컨셉('귀여운 연구실 느낌')은 저작권·트레이드드레스 보호 대상이지만 특허 대상은 아님 — 권리화 전략 분리 필요",
+    "검색 결과가 없다는 점이 오히려 '해당 조합의 상업적 필요성이 낮아 선행기술 검색이 안 된 것'일 수 있으며, 유사 SaaS 제품(Makerpad, Bubble 생태계 등)이 비특허 형태로 이미 존재할 가능성 있음"
+  ],
+  "recommendation": "현재 아이디어 전체를 단일 청구항으로 특허화하기보다, '기술적으로 비자명한 서브시스템'을 분리하여 좁고 강한 청구항을 구성하는 전략을 권장합니다. 구체적으로는 ① 아이디어 상태-버전 매핑 데이터 구조 및 동기화 알고리즘, ② 트래픽 지표 기반 우선순위 자동 재배열 엔진을 각각 독립 청구항으로 구성하고, 나머지 워크플로우는 종속항으로 연결하세요. 특허 출원과 병행하여 영업비밀(핵심 알고리즘), 저작권(UI 디자인), 상표(브랜드명)를 통한 다층 IP 보호 전략을 수립하는 것이 현실적입니다.",
+  "summary": "본 아이디어는 1인 창업자를 위한 아이디어-프로토타입-MVP-운영의 전주기 인큐베이션 플랫폼으로, 개별 구성요소들은 공지 기술이나 '병렬 다아이디어 독립 버전 관리 + 트래픽 기반 우선순위 추천'의 통합 파이프라인 조합은 검색된 선행기술에서 명확히 발견되지 않아 신규성은 경계선상에 있습니다. 그러나 각 기능의 결합이 당업자에게 자명한 조합으로 판단될 진보성 리스크와 추상적 사업방법 리스크가 복합적으로 작용하여 현 기술 수준에서는 특허 등록 가능성이 낮습니다. 핵심 알고리즘을 구체화하고 기술적 효과를 명확히 기재하면 부분적인 특허화는 가능합니다.",
+  "evidence": [
+    "유사 요소(아이디어 관리): US20190171999A1이 아이디어 수집·워크플로우 관리 시스템을 청구하고 있으나, 다수 아이디어의 독립적 버전 트래킹(서비스별 vN 상태 분기)과 결합된 구조는 해당 특허에서 발견되지 않아 부분적 차별성 인정 가능",
+    "유사 요소(분석 대시보드): US20210342748A1이 멀티 테넌트 SaaS 환경에서 서비스별 analytics 집계를 개시하고 있으나, 이를 아이디어 인큐베이션 우선순위 의사결정에 피드백하는 루프 메커니즘은 명시적으로 개시되지 않아 차별점으로 활용 가능",
+    "비유사 요소(통합 파이프라인): 아이디어 발굴→</div>
+      <div class="muted" style="margin-top:0.6rem;font-size:0.86rem">키워드: <code>idea incubation platform, prototype management system, multi-version service tracking, MVP iteration framework, traffic analytics dashboard</code></div>
+    </div>
+    <div class="grid">
+      <div class="card">
+        <div class="muted" style="font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase">유사 특허</div>
+        <ul style="margin-top:0.45rem"><li>없음</li></ul>
+      </div>
+      <div class="card">
+        <div class="muted" style="font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase">근거(evidence)</div>
+        <ul style="margin-top:0.45rem"><li>없음</li></ul>
+      </div>
+    </div>
+    <div class="grid">
+      <div class="card">
+        <div class="muted" style="font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase">차별점</div>
+        <ul style="margin-top:0.45rem"><li>없음</li></ul>
+      </div>
+      <div class="card">
+        <div class="muted" style="font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase">리스크</div>
+        <ul style="margin-top:0.45rem"><li>없음</li></ul>
+      </div>
+    </div>
+    
+    
+</body>
+</html>
