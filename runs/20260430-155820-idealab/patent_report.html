@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>특허 상세 — IdeaLab</title>
+<style>
+  body { font-family: 'Segoe UI', sans-serif; background: #020817; color: #f1f5f9; max-width: 980px; margin: 0 auto; padding: 2rem; }
+  a { color:#60a5fa; text-decoration:none; }
+  a:hover { text-decoration: underline; }
+  h1 { font-size: 1.7rem; margin-bottom: 0.3rem; background: linear-gradient(135deg, #3b82f6, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .sub { color:#475569; margin-bottom: 1.1rem; font-size: 0.92rem; line-height: 1.4; }
+  .nav { display:flex; gap:0.5rem; flex-wrap:wrap; margin: 0.8rem 0 1.2rem; }
+  .nav a { background:#0f172a; border:1px solid #1e293b; padding:0.4rem 0.6rem; border-radius:10px; font-size:0.82rem; }
+  .card { background:#0f172a; border:1px solid #1e293b; border-radius:16px; padding:1.1rem 1.3rem; margin-bottom:0.8rem; }
+  .grid { display:grid; grid-template-columns: 1fr 1fr; gap:0.8rem; }
+  .kpi { display:flex; gap:0.9rem; flex-wrap:wrap; align-items:flex-end; }
+  .pill { display:inline-block; background:#1e293b; color:#cbd5e1; border:1px solid #334155; padding:0.25rem 0.55rem; border-radius:999px; font-size:0.78rem; }
+  .score { font-size:2rem; font-weight:900; letter-spacing:-0.02em; }
+  .muted { color:#94a3b8; }
+  ul { padding-left: 1.2rem; color:#cbd5e1; line-height:1.75; }
+  code { background:#1e293b; padding:0.12rem 0.35rem; border-radius:6px; font-size:0.82rem; }
+  table { width:100%; border-collapse: collapse; }
+  th, td { border-bottom:1px solid #1e293b; text-align:left; padding:0.55rem 0.4rem; vertical-align: top; }
+  th { font-size:0.78rem; color:#64748b; text-transform: uppercase; letter-spacing:0.08em; }
+  .tag { display:inline-block; background:#1e293b; border-radius:8px; padding:0.25rem 0.55rem; font-size:0.78rem; margin: 0.15rem; color:#cbd5e1; border:1px solid #334155; }
+  .check { display:flex; align-items:flex-start; gap:0.55rem; padding:0.45rem 0; border-bottom:1px dashed #1e293b; }
+  .dot { width:10px; height:10px; border-radius:999px; margin-top:0.35rem; flex:0 0 auto; }
+  .dot.pass { background:#10b981; }
+  .dot.warn { background:#f59e0b; }
+  .dot.fail { background:#ef4444; }
+  @media (max-width: 860px) { .grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+  <h1>⚡ IdeaForge</h1>
+  <div class="sub">IdeaLab · 수십 개의 아이디어를 귀여운 연구실에서 키워, 데이터로 무엇을 먼저 만들지 알려주는 1인 창업가 전용 아이디어 OS</div>
+  <div class="nav">
+    <a href="index.html">요약</a>
+    <a href="patent_report.html">특허 상세</a>
+    <a href="market_report.html">시장/전략 상세</a>
+    <a href="plan_report.html">기획서</a>
+    <a href="qa_report.html">QA</a>
+    <a href="mvp.html" target="_blank">MVP 목업</a>
+  </div>
+  
+    <div class="card">
+      <div class="muted" style="font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase">점수</div>
+      <div style="margin-top:0.5rem">
+        <span class="pill">score: 42/100</span>
+        <span class="pill">patentable: false</span>
+        <span class="pill">confidence: 0.55</span>
+      </div>
+      <div style="margin-top:0.6rem"><span class="tag">novelty: 18</span><span class="tag">non_obviousness: 10</span><span class="tag">enablement: 8</span><span class="tag">claim_scope: 4</span><span class="tag">excluded_subject_matter_risk: 2</span></div>
+      <div style="margin-top:0.8rem;color:#cbd5e1;line-height:1.75">본 아이디어는 1인 창업자용 다중 아이디어 포트폴리오 인큐베이팅 플랫폼으로, 개별 구성 요소(아이디어 관리·목업·버전관리·트래픽 분석)는 선행기술에 분산 존재하나 해당 조합의 명시적 선행문헌은 미발견입니다. 그러나 기존 도구의 자명한 결합으로 볼 여지가 크고 추상적 사업방법 리스크가 높아 현 상태에서 특허 등록 가능성은 낮습니다. 기술적으로 특정 가능한 핵심 메커니즘(예: 트래픽-우선순위 피드백 알고리즘)을 중심으로 청구 범위를 재설계할 경우 특허 전략 재검토가 가능합니다.</div>
+      <div class="muted" style="margin-top:0.6rem;font-size:0.86rem">키워드: <code>Idea incubation platform, rapid prototyping service, MVP management system, multi-project version control, traffic analytics dashboard</code></div>
+    </div>
+    <div class="grid">
+      <div class="card">
+        <div class="muted" style="font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase">유사 특허</div>
+        <ul style="margin-top:0.45rem"><li>US10496394 — Integrated software development and project lifecycle management platform (USPTO)</li><li>US20180060802 — Idea management and innovation pipeline system (USPTO)</li><li>EP3136259 — Multi-project agile management with analytics dashboard (EPO)</li><li>US20190286452 — Automated prototyping and mockup generation from requirements (USPTO)</li><li>EP2866148 — Version-controlled multi-tenant SaaS portfolio management system (EPO)</li></ul>
+      </div>
+      <div class="card">
+        <div class="muted" style="font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase">근거(evidence)</div>
+        <ul style="margin-top:0.45rem"><li>유사 요소: US20180060802(아이디어 관리 파이프라인)와 EP3136259(다중 프로젝트 애자일 + 분석 대시보드)는 아이디어 수집→평가→실행 흐름 및 포트폴리오 분석 기능을 이미 청구하고 있어, 본 아이디어의 기본 구조와 핵심이 겹침</li><li>비유사 요소: 검색된 선행기술 중 &#x27;개인 창업자가 수백 개 마이크로서비스를 각기 다른 성숙 버전(v1~vN)으로 병렬 관리하면서 실시간 트래픽을 개발 우선순위 신호로 피드백하는 단일 통합 루프&#x27; 구조는 명시적으로 발견되지 않아 차별화 가능한 여지가 존재함</li><li>리스크 요소: US10496394(통합 개발·라이프사이클 플랫폼)와 US20190286452(자동 목업 생성)는 각각 버전관리+목업 자동화를 독립적으로 청구하고 있어, 본 아이디어의 결합이 당업자에게 자명한 조합(§103)으로 거절될 근거로 활용될 가능성이 높음</li></ul>
+      </div>
+    </div>
+    <div class="grid">
+      <div class="card">
+        <div class="muted" style="font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase">차별점</div>
+        <ul style="margin-top:0.45rem"><li>단일 개인 창업자(1인)가 수십~수백 개의 마이크로 아이디어를 각기 다른 버전 단계(v1~vN)로 병렬 관리하는 &#x27;아이디어 포트폴리오 인큐베이터&#x27; 개념은 기존 엔터프라이즈 PM 도구와 차별화됨</li><li>아이디어 단계(seed) → 목업 → MVP → 운영 단계를 단일 워크플로우 안에서 연속적으로 전환하는 파이프라인 구조가 검색된 선행기술에서 명시적으로 결합된 형태로 발견되지 않음</li><li>서비스별 실시간 트래픽 지표를 개발 우선순위 재조정 신호로 피드백하는 루프(traffic-driven prioritization loop)는 기존 애널리틱스 대시보드와 개념적으로 구분 가능한 요소</li></ul>
+      </div>
+      <div class="card">
+        <div class="muted" style="font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase">리스크</div>
+        <ul style="margin-top:0.45rem"><li>핵심 기능 각각(아이디어 관리, 목업 생성, 버전 관리, 트래픽 분석)은 Notion·Figma·GitHub·Mixpanel 등 기존 도구의 조합으로 재현 가능하여 &#x27;자명한 결합&#x27; 거절(35 USC §103) 위험이 높음</li><li>소프트웨어 기반 아이디어/프로젝트 관리 방법은 Alice Corp. v. CLS Bank 판례에 따른 추상적 아이디어 리스크가 존재하며, 기술적 개선(technical improvement)을 청구항에서 명확히 특정하지 않으면 §101 거절 가능성 있음</li><li>&#x27;귀여운 연구실 UI/컨셉&#x27; 등 디자인·UX 요소는 특허 보호 대상이 아니며, 사업 방법(business method) 성격이 강해 청구항 범위를 기술적 구성으로 좁히기 어려움</li><li>검색 결과 부재는 특허 문헌 외 공개 SaaS 제품(ProductHunt 등 공개 출시 서비스)에 유사 선행기술이 존재할 가능성을 배제하지 않으며, 비특허 선행기술(NPL) 조사가 필요함</li></ul>
+      </div>
+    </div>
+    <div class="card"><div class="muted" style="font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase">권고</div><div style="margin-top:0.45rem;color:#cbd5e1;line-height:1.75">현재 아이디어 수준에서는 특허 단독 전략보다 빠른 시장 출시(time-to-market) + 트레이드시크릿 전략이 현실적입니다. 특허를 추진하려면 ① '트래픽 기반 자동 우선순위 재조정 알고리즘'처럼 기술적으로 특정 가능한 하위 메커니즘을 발굴하고, ② Alice 대응을 위해 '컴퓨터 기능의 구체적 개선'으로 청구항을 재구성하며, ③ 아이디어-목업-MVP 전환 트리거 조건을 수치/조건 기반으로 명세서에 구체화하는 작업이 선행되어야 합니다. 디자인특허(UI 레이아웃) 또는 저작권으로 보완하는 투트랙 전략도 검토하세요.</div></div>
+    
+</body>
+</html>
