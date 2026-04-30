@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>기획서 — IdeaLab</title>
+<style>
+  body { font-family: 'Segoe UI', sans-serif; background: #020817; color: #f1f5f9; max-width: 980px; margin: 0 auto; padding: 2rem; }
+  a { color:#60a5fa; text-decoration:none; }
+  a:hover { text-decoration: underline; }
+  h1 { font-size: 1.7rem; margin-bottom: 0.3rem; background: linear-gradient(135deg, #3b82f6, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .sub { color:#475569; margin-bottom: 1.1rem; font-size: 0.92rem; line-height: 1.4; }
+  .nav { display:flex; gap:0.5rem; flex-wrap:wrap; margin: 0.8rem 0 1.2rem; }
+  .nav a { background:#0f172a; border:1px solid #1e293b; padding:0.4rem 0.6rem; border-radius:10px; font-size:0.82rem; }
+  .card { background:#0f172a; border:1px solid #1e293b; border-radius:16px; padding:1.1rem 1.3rem; margin-bottom:0.8rem; }
+  .grid { display:grid; grid-template-columns: 1fr 1fr; gap:0.8rem; }
+  .kpi { display:flex; gap:0.9rem; flex-wrap:wrap; align-items:flex-end; }
+  .pill { display:inline-block; background:#1e293b; color:#cbd5e1; border:1px solid #334155; padding:0.25rem 0.55rem; border-radius:999px; font-size:0.78rem; }
+  .score { font-size:2rem; font-weight:900; letter-spacing:-0.02em; }
+  .muted { color:#94a3b8; }
+  ul { padding-left: 1.2rem; color:#cbd5e1; line-height:1.75; }
+  code { background:#1e293b; padding:0.12rem 0.35rem; border-radius:6px; font-size:0.82rem; }
+  table { width:100%; border-collapse: collapse; }
+  th, td { border-bottom:1px solid #1e293b; text-align:left; padding:0.55rem 0.4rem; vertical-align: top; }
+  th { font-size:0.78rem; color:#64748b; text-transform: uppercase; letter-spacing:0.08em; }
+  .tag { display:inline-block; background:#1e293b; border-radius:8px; padding:0.25rem 0.55rem; font-size:0.78rem; margin: 0.15rem; color:#cbd5e1; border:1px solid #334155; }
+  .check { display:flex; align-items:flex-start; gap:0.55rem; padding:0.45rem 0; border-bottom:1px dashed #1e293b; }
+  .dot { width:10px; height:10px; border-radius:999px; margin-top:0.35rem; flex:0 0 auto; }
+  .dot.pass { background:#10b981; }
+  .dot.warn { background:#f59e0b; }
+  .dot.fail { background:#ef4444; }
+  @media (max-width: 860px) { .grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+  <h1>⚡ IdeaForge</h1>
+  <div class="sub">IdeaLab · 아이디어가 묻히지 않게 — 발굴부터 목업·MVP·운영까지 하나의 귀여운 연구실에서 관리하는 1인 창업가용 아이디어 라이프사이클 플랫폼</div>
+  <div class="nav">
+    <a href="index.html">요약</a>
+    <a href="patent_report.html">특허 상세</a>
+    <a href="market_report.html">시장/전략 상세</a>
+    <a href="plan_report.html">기획서</a>
+    <a href="qa_report.html">QA</a>
+    <a href="mvp.html" target="_blank">MVP 목업</a>
+  </div>
+  
+    <div class="card">
+      <div class="muted" style="font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase">기획서(무엇을 했는지)</div>
+      <ul style="margin-top:0.45rem">
+        <li><strong>제품명</strong>: IdeaLab</li>
+        <li><strong>타겟</strong>: 바이브코딩(Cursor·Lovable 등) 활용 1인 창업가, 멀티 마이크로SaaS 운영 인디해커, 사이드 프로젝트를 병렬로 진행하는 개발자·디자이너</li>
+        <li><strong>문제</strong>: 아이디어 생성 속도가 구현 속도를 앞서면서 수십~수백 개의 아이디어가 Notion 메모에 방치됨. 어느 프로젝트가 잘 되는지 파악이 어렵고, 버전별 진행 상태 관리도 불가능해 '아이디어 묘지' 현상이 심화되고 있음</li>
+        <li><strong>솔루션</strong>: 아이디어 등록 즉시 AI 시장분석·목업 자동생성을 제공하고, 각 서비스의 버전(v1~vN) 상태를 실험 카드로 추적. 서비스별 트래픽을 통합 대시보드로 집계해 '어디에 집중할지' 데이터 기반 우선순위를 자동 추천</li>
+        <li><strong>비즈니스 모델</strong>: Freemium SaaS. 무료 플랜으로 핵심 가치를 경험시키고, AI 분석·트래픽 대시보드·무제한 아이디어로 Pro 전환 유도. 목업 생성 크레딧 소액 과금으로 추가 수익 확보</li>
+      </ul>
+    </div>
+    <div class="grid">
+      <div class="card">
+        <div class="muted" style="font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase">MVP 기능</div>
+        <ul style="margin-top:0.45rem"><li>아이디어 실험 카드 생성 (제목·문제·솔루션·상태 필드 + 귀여운 연구소 UI)</li><li>아이디어별 라이프사이클 상태 관리 (💡아이디어→🎨목업→🚀MVP→⚙️운영)</li><li>서비스별 버전 트래킹 (v1~vN 스냅샷 보존 및 변경 이력)</li><li>LLM 기반 AI 자동 시장분석·경쟁사 요약 리포트 (등록 즉시 생성)</li><li>LLM 기반 UI 스켈레톤 목업 자동 생성 (Figma JSON 또는 HTML 와이어프레임 출력)</li><li>서비스별 트래픽 통합 대시보드 (GA·Plausible·Cloudflare 연동, 성과 점수화)</li><li>우선순위 스코어링 엔진 (트래픽·버전·마지막 업데이트 가중치 기반 추천)</li><li>전체 아이디어 포트폴리오 뷰 (연구실 보드 — 상태별 카드 그리드)</li></ul>
+      </div>
+      <div class="card">
+        <div class="muted" style="font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase">기술 스택</div>
+        <div style="margin-top:0.45rem"><span class="tag">frontend: Next.js + Tailwind CSS (귀여운 연구실 디자인 시스템)</span><span class="tag">backend: FastAPI + Celery (AI 분석·목업 생성 비동기 처리)</span><span class="tag">db: PostgreSQL + Redis (메타데이터·캐시) + S3 (목업 스냅샷 저장)</span></div>
+        <div class="muted" style="margin-top:0.8rem">수익 구조</div>
+        <ul style="margin-top:0.35rem"><li>Starter 무료 (아이디어 5개·목업 1개·AI 분석 3회)</li><li>Pro $12/월 (아이디어 무제한·AI 분석 20회/월·트래픽 대시보드 5개 서비스)</li><li>Enterprise $29/월 (전체 무제한·팀 공유·트래픽 대시보드 무제한·우선 지원)</li><li>목업 자동생성 크레딧 $3/10크레딧 (소액 Add-on 과금)</li><li>아이디어 템플릿·목업 마켓플레이스 수수료 10~15% (장기 로드맵)</li></ul>
+      </div>
+    </div>
+    <div class="grid">
+      <div class="card">
+        <div class="muted" style="font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase">차별점</div>
+        <ul style="margin-top:0.45rem"><li>아이디어→목업→MVP→운영의 전체 라이프사이클을 단일 플랫폼으로 연결 (Notion·Linear·Mixpanel 조합 불필요)</li><li>서비스별 버전(vN) + 트래픽 통합 대시보드로 '어디에 집중할지' 데이터 기반 자동 추천 (대체재 없음)</li><li>귀여운 연구실 컨셉 브랜드 — 딱딱한 PM툴과 정반대 포지셔닝으로 감성 바이럴 유리</li><li>LLM 기반 AI 목업 자동생성 + 즉시 시장분석 리포트로 아이디어→검증 사이클 10분 이내 단축</li><li>1인 창업가 전용 설계 — 팀 기능보다 솔로 워크플로우 최적화 (ProductBoard·Linear 대비 복잡도 1/5)</li><li>수백 개 마이크로서비스 독립 버전 관리를 단일 그래프 데이터 모델로 처리하는 경량 아키텍처</li></ul>
+      </div>
+      <div class="card">
+        <div class="muted" style="font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase">리스크</div>
+        <ul style="margin-top:0.45rem"><li>Notion AI·Linear AI 등 기존 강자가 인접 기능 강화 시 차별점 희석 위험 → 트래픽 연동·버전 관리 깊이로 방어</li><li>Cursor·Lovable 등 바이브코딩 툴이 아이디어 관리 기능 내재화 시 대체 위험 → 플랫폼 API 연동으로 전환</li><li>1인 창업가의 유료 전환 보수성으로 LTV 낮을 수 있음 → $12 이하 가격 + 연간 결제 할인으로 대응</li><li>수백 개 아이디어·서비스 데이터 안정 관리를 위한 인프라 복잡도 증가 → 멀티테넌트 격리 설계 선행</li><li>AI 분석·목업 생성 LLM API 비용이 무료 플랜에서 과도해질 위험 → 크레딧 제한 + 캐싱 전략으로 통제</li><li>틈새 시장 특성상 초기 CAC 대비 전환율 예측 어려움 → Product Hunt·빌드인퍼블릭으로 유기 채널 우선</li></ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="muted" style="font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase">마일스톤</div>
+      <ul style="margin-top:0.45rem"><li><strong>Week 1</strong> — 핵심 데이터 모델 설계 (아이디어 카드·버전·상태 스키마) + 귀여운 연구실 디자인 시스템 컴포넌트 구축</li><li><strong>Week 2</strong> — 아이디어 카드 CRUD + 라이프사이클 상태 전환 + 버전 스냅샷 저장 기능 완성</li><li><strong>Week 3</strong> — LLM 연동 AI 시장분석 리포트 자동 생성 + UI 스켈레톤 목업 자동생성 기능 베타 완성</li><li><strong>Week 4</strong> — 트래픽 대시보드 (GA·Plausible 연동) + 우선순위 스코어링 엔진 MVP 완성 → 클로즈 베타 20명 초대</li><li><strong>Week 6</strong> — 베타 피드백 반영 개선 + X 빌드인퍼블릭 캠페인 시작 → 베타 사용자 200명 달성</li><li><strong>Week 8</strong> — Product Hunt 공개 론칭 → 가입 500명·Pro 전환 50명·MRR $600 달성 목표</li></ul>
+    </div>
+    
+</body>
+</html>
